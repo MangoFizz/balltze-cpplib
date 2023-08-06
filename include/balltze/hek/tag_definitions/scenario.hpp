@@ -8,8 +8,8 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "actor.hpp"
 #include "object.hpp"
+#include "actor.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	enum ScenarioType : std::uint16_t {

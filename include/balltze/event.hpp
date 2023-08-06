@@ -4,6 +4,7 @@
 #define BALLTZE_API__EVENT_HPP
 
 #include <functional>
+#include <stdexcept>
 #include "api.hpp"
 
 namespace Balltze::Event {
@@ -20,25 +21,17 @@ namespace Balltze::Event {
     };
 
     template<typename T>
-    using NonCancellableEventDelegate = std::function<void(T &)>;
+    using EventCallback = std::function<void(T &)>;
 
     template<typename T>
-    using NonCancellableConstEventDelegate = std::function<void(T const &)>;
-
-    template<typename T>
-    using CancellableEventDelegate = std::function<bool(T &)>;
-
-    template<typename T>
-    using CancellableConstEventDelegate = std::function<bool(T const &)>;
+    using ConstEventCallback = std::function<void(T const &)>;
 
     template<typename T>
     class EventHandler {
     public:
         BALLTZE_API static void init();
-        BALLTZE_API static std::size_t add_listener(NonCancellableEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
-        BALLTZE_API static std::size_t add_listener_const(NonCancellableConstEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
-        BALLTZE_API static std::size_t add_listener(CancellableEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
-        BALLTZE_API static std::size_t add_listener_const(CancellableConstEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
+        BALLTZE_API static std::size_t add_listener(EventCallback<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
+        BALLTZE_API static std::size_t add_listener_const(ConstEventCallback<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT);
         BALLTZE_API static void remove_listener(std::size_t handle);
         BALLTZE_API static void dispatch(T &event);
     };
@@ -76,27 +69,29 @@ namespace Balltze::Event {
             EventHandler<T>::dispatch(*(T *)this);
         }
 
+        virtual bool cancellable() const = 0;
+
         inline void cancel() {
-            m_cancelled = true;
+            if(cancellable()) {
+                if(this->time == EVENT_TIME_AFTER) {
+                    throw std::runtime_error("Cannot cancel an event after is has been occurred");
+                }
+                m_cancelled = true;
+            }
+            else {
+                throw std::runtime_error("Event is not cancellable");
+            }
         }
 
         inline bool cancelled() const {
             return m_cancelled;
         }
 
-        static EventListenerHandle<T> subscribe(NonCancellableEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
+        static EventListenerHandle<T> subscribe(EventCallback<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
             return EventListenerHandle<T>(EventHandler<T>::add_listener(callback, priority));
         }
 
-        static EventListenerHandle<T> subscribe_const(NonCancellableConstEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
-            return EventListenerHandle<T>(EventHandler<T>::add_listener_const(callback, priority));
-        }
-
-        static EventListenerHandle<T> subscribe(CancellableEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
-            return EventListenerHandle<T>(EventHandler<T>::add_listener(callback, priority));
-        }
-
-        static EventListenerHandle<T> subscribe_const(CancellableConstEventDelegate<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
+        static EventListenerHandle<T> subscribe_const(ConstEventCallback<T> callback, EventPriority priority = EVENT_PRIORITY_DEFAULT) {
             return EventListenerHandle<T>(EventHandler<T>::add_listener_const(callback, priority));
         }
 
@@ -104,6 +99,11 @@ namespace Balltze::Event {
             listener.remove();
         }
     };
+
+    std::string event_priority_to_string(EventPriority priority);
+    EventPriority event_priority_from_string(const std::string &priority);
+    std::string event_time_to_string(EventTime time);
+    EventTime event_time_from_string(const std::string &time);
 }
 
 #include "events/d3d9_end_scene.hpp"
@@ -115,6 +115,10 @@ namespace Balltze::Event {
 #include "events/map_file_data_read.hpp"
 #include "events/map_file_load.hpp"
 #include "events/sound_playback.hpp"
+#include "events/camera.hpp"
+#include "events/server_connect.hpp"
+#include "events/object_damage.hpp"
+#include "events/rcon_message.hpp"
 
 #endif
 

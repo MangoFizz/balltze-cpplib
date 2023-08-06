@@ -15,6 +15,9 @@ namespace Balltze::Engine {
 	using TagEnum = std::uint16_t;
 	using TagFourCC = TagClassInt;
 	using Matrix = float[3][3];
+    using Point = float;
+	using TickCount = std::uint32_t;
+    using TickCount16 = std::uint16_t;
 
 	struct TagString {
         char string[0x20] = {};
@@ -22,20 +25,20 @@ namespace Balltze::Engine {
         TagString() = default;
     };
 
-    union ElementHandle {
-        std::uint32_t whole_id;
+    union ResourceHandle {
+        std::uint32_t handle;
         struct {
             std::uint16_t index;
             std::uint16_t id;
-        } index;
+        };
 
-        ElementHandle(std::uint32_t id) {
-            this->whole_id = id;
+        ResourceHandle(std::uint32_t handle) {
+            this->handle = handle;
         }
 
-        ElementHandle() = default;
+        ResourceHandle() = default;
 
-        static ElementHandle null() noexcept {
+        static ResourceHandle null() noexcept {
             return { 0xFFFFFFFF };
         }
 
@@ -43,22 +46,23 @@ namespace Balltze::Engine {
             return *this == null();
         }
 
-        bool operator==(const ElementHandle &other) const noexcept {
-            return this->whole_id == other.whole_id;
+        bool operator==(const ResourceHandle &other) const noexcept {
+            return this->handle == other.handle;
         }
 
-        bool operator!=(const ElementHandle &other) const noexcept {
-            return this->whole_id != other.whole_id;
+        bool operator!=(const ResourceHandle &other) const noexcept {
+            return this->handle != other.handle;
         }
 
-        bool operator<(const ElementHandle& other) const noexcept {
-            return index.index < other.index.index; 
+        bool operator<(const ResourceHandle& other) const noexcept {
+            return index < other.index; 
         }
     };
-	static_assert(sizeof(ElementHandle) == sizeof(std::uint32_t));
+	static_assert(sizeof(ResourceHandle) == sizeof(std::uint32_t));
 
-    using PlayerHandle = ElementHandle;
-    using TagHandle = ElementHandle;
+    using PlayerHandle = ResourceHandle;
+    using ObjectHandle = ResourceHandle;
+    using TagHandle = ResourceHandle;
 
     template<typename T> struct TagReflexive {
         std::uint32_t count;
@@ -77,22 +81,53 @@ namespace Balltze::Engine {
 
 	struct TagDependency {
 		TagFourCC tag_fourcc;
-		std::uint32_t path_pointer;
+		char *path;
 		std::size_t path_size;
-		TagHandle tag_id;
+		TagHandle tag_handle;
 	};
     static_assert(sizeof(TagDependency) == 0x10);
 
 	struct Point2D {
-		float x;
-		float y;
+		Point x;
+		Point y;
+
+		inline Point2D operator+(Point2D const &point) {
+            return {
+                this->x + point.x,
+                this->y + point.y
+            };
+        }
+
+        friend bool operator==(const Point2D &point_a, const Point2D &point_b) {
+            return point_a.x == point_b.x && point_a.y == point_b.y;
+        }
+
+        friend bool operator!=(const Point2D &point_a, const Point2D &point_b) {
+            return point_a.x != point_b.x || point_a.y != point_b.y;
+        }
 	};
     static_assert(sizeof(Point2D) == 0x8);
 
 	struct Point3D {
-		float x;
-		float y;
-		float z;
+		Point x;
+		Point y;
+		Point z;
+
+		inline Point3D operator+(Point3D const &point) {
+            return {
+                this->x + point.x,
+                this->y + point.y,
+                this->z + point.z
+            };
+        }
+
+        friend bool operator==(const Point3D &point_a, const Point3D &point_b) {
+            return point_a.x == point_b.x && point_a.y == point_b.y && point_a.z == point_b.z;
+        }
+
+        friend bool operator!=(const Point3D &point_a, const Point3D &point_b) {
+            return point_a.x != point_b.x || point_a.y != point_b.y || point_a.z != point_b.z;
+        }
 	};
 	static_assert(sizeof(Point3D) == 0xC);
 
@@ -149,6 +184,13 @@ namespace Balltze::Engine {
 	};
 	static_assert(sizeof(Euler3D) == 0xC);
 
+	struct Euler3DPYR {
+        float pitch;
+        float yaw;
+        float roll;
+    };
+	static_assert(sizeof(Euler3DPYR) == 0xC);
+
 	struct Vector2D {
 		float i;
 		float j;
@@ -169,11 +211,18 @@ namespace Balltze::Engine {
 	};
 	static_assert(sizeof(ColorRGB) == 0xC);
 
+    struct RotationMatrix;
+
 	struct Quaternion {
 		float i;
 		float j;
 		float k;
 		float w;
+
+		Quaternion() noexcept = default;
+        Quaternion(const RotationMatrix &matrix) noexcept;
+        Quaternion(const Quaternion &) noexcept = default;
+        Quaternion &operator =(const Quaternion &) noexcept = default;
 	};
 	static_assert(sizeof(Quaternion) == 0x10);
 
@@ -188,6 +237,15 @@ namespace Balltze::Engine {
 		float w;
 	};
 	static_assert(sizeof(Plane2D) == 0xC);
+
+    struct RotationMatrix {
+        Point3D v[3];
+
+        RotationMatrix() noexcept;
+        RotationMatrix(const Quaternion &quaternion) noexcept;
+        RotationMatrix(const RotationMatrix &) noexcept = default;
+        RotationMatrix &operator =(const RotationMatrix &) noexcept = default;
+    };
 
 	union ScenarioScriptNodeValue {
         std::int8_t bool_int;

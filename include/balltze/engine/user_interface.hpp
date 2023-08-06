@@ -11,8 +11,10 @@
 #include "../memory.hpp"
 #include "../math.hpp"
 #include "../api.hpp"
+#include "core.hpp"
 #include "tag_definitions/hud_globals.hpp"
 #include "tag_definitions/bitmap.hpp"
+#include "tag_definitions/ui_widget_definition.hpp"
 #include "tag_definitions/sound.hpp"
 #include "tag.hpp"
 
@@ -284,18 +286,8 @@ namespace Balltze::Engine {
     static_assert(sizeof(WidgetMemoryPool::ResourceHandle) == 0x10);
 
     struct Widget {
-        enum Type : std::uint16_t {
-            WIDGET_TYPE_CONTAINER = 0,
-            WIDGET_TYPE_TEXT_BOX,
-            WIDGET_TYPE_SPINNER_LIST,
-            WIDGET_TYPE_COLUMN_LIST,
-            WIDGET_TYPE_GAME_MODEL,
-            WIDGET_TYPE_MOVIE,
-            WIDGET_TYPE_CUSTOM
-        };
-
-        /** ID of the widget tag */
-        TagHandle definition_tag_id;
+        /** Handle of the widget tag */
+        TagHandle definition_tag_handle;
 
         /** Name of the widget */
         const char *name;
@@ -310,7 +302,7 @@ namespace Balltze::Engine {
         std::int16_t top_bound;
 
         /** Widget type */
-        Type type;
+        TagDefinitions::UIWidgetType type;
 
         /** Unknown flags related to the widget history */
         std::uint16_t visible;
@@ -370,13 +362,6 @@ namespace Balltze::Engine {
         inline WidgetMemoryPool::ResourceHandle &get_handle() noexcept {
             return *reinterpret_cast<WidgetMemoryPool::ResourceHandle *>(reinterpret_cast<std::uint32_t>(this) - sizeof(WidgetMemoryPool::ResourceHandle));
         }
-
-        /**
-         * Get string for a widget type
-         * @param type      Code of widget type
-         * @return          Stringified widget type
-         */
-        BALLTZE_API static std::string type_to_string(Type type) noexcept;
     }; 
     static_assert(sizeof(Widget) == 0x60);
 
@@ -513,6 +498,95 @@ namespace Balltze::Engine {
         Corner bottom_left;
     };
 
+    struct Controls {
+        std::uint8_t jump;
+        std::uint8_t switch_grenade;
+        std::uint8_t action;
+        std::uint8_t switch_weapon;
+
+        std::uint8_t melee;
+        std::uint8_t flashlight;
+        std::uint8_t secondary_fire;
+        std::uint8_t primary_fire;
+
+        std::uint8_t menu_forward;
+        std::uint8_t menu_back;
+        std::uint8_t crouch;
+        std::uint8_t zoom;
+
+        std::uint8_t scores;
+        std::uint8_t reload;
+        std::uint8_t exchange_weapons;
+        std::uint8_t all_chat;
+
+        std::uint8_t team_chat;
+        std::uint8_t vehicle_chat;
+        PADDING(0x1);
+        PADDING(0x1);
+
+        PADDING(0x4);
+
+        PADDING(0x1);
+        PADDING(0x1);
+        PADDING(0x1);
+        std::uint8_t rules;
+
+        std::uint8_t show_player_names;
+        PADDING(0x3);
+
+        float move_forward;
+        float move_left;
+        float aim_left;
+        float aim_up;
+
+        std::uint8_t controller_aim;
+        PADDING(0x3);
+    };
+
+    struct KeyboardKeys {
+        char
+
+        // 0x0
+        escape, f1, f2, f3,
+        f4, f5, f6, f7,
+        f8, f9, f10, f11,
+        f12, print_screen, scroll_lock, pause_break,
+
+        // 0x10
+        tilde, top_1, top_2, top_3,
+        top_4, top_5, top_6, top_7,
+        top_8, top_9, top_0, top_minus,
+        top_equals, backspace, tab, q,
+
+        // 0x20
+        w, e, r, t,
+        y, u, i, o,
+        p, left_bracket, right_bracket, back_slash,
+        caps_lock, a, s, d,
+
+        // 0x30
+        f, g, h, j,
+        k, l, semicolon, apostrophe,
+        enter, left_shift, z, x,
+        c, v, b, n,
+
+        // 0x40
+        m, comma, period, forward_slash,
+        right_shift, left_control, windows, left_alt,
+        space, right_alt, unknown, menu,
+        right_control, up_arrow, down_arrow, left_arrow,
+
+        // 0x50
+        right_arrow, ins, home, page_up,
+        del, end, page_down, num_lock,
+        num_star, num_forward_slash, num_0, num_1,
+        num_2, num_3, num_4, num_5,
+
+        // 0x60
+        num_6, num_7, num_8, num_9,
+        num_minus, num_plus, num_enter, num_decimal;
+    };
+
     /**
      * Get the widget event globals
      * @return reference to the widget event globals
@@ -530,6 +604,12 @@ namespace Balltze::Engine {
      * @return reference to the widget globals
      */
     BALLTZE_API WidgetGlobals *get_widget_globals();
+    
+    /**
+     * Get the name of a give input device
+     * @param device    Input device
+     */
+    BALLTZE_API std::string get_input_device_name(InputDevice device) noexcept;
 
     /**
      * Get string for a gamepad button
@@ -555,7 +635,7 @@ namespace Balltze::Engine {
     /**
      * Find a widget from a given widget definition.
      * This is the function used by the game; it only returns the first coincidence.
-     * @param widget_definition     Widget definition tag ID of the widget to find
+     * @param widget_definition     Widget definition tag handle of the widget to find
      * @param widget_base           Widget where to look
      * @return                      Pointer to widget if found, nullptr if not
      */
@@ -563,7 +643,7 @@ namespace Balltze::Engine {
 
     /**
      * Find widgets from a given widget definition.
-     * @param widget_definition     Widget definition tag ID of the widget to find
+     * @param widget_definition     Widget definition tag handle of the widget to find
      * @param widget_base           Widget where to look
      * @return                      Vector of widgets
      */
@@ -571,7 +651,7 @@ namespace Balltze::Engine {
 
     /**
      * Open a widget
-     * @param widget_definition     Tag ID of widget definition
+     * @param widget_definition     Tag handle of widget definition
      * @param push_history          Push or not the current root widget to menu history.
      * @return                      Pointer to the new widget
      */
@@ -585,7 +665,7 @@ namespace Balltze::Engine {
     /**
      * Replace a widget
      * @param widget                Widget to be replaced
-     * @param widget_definition     Tag ID of the definition for the widget replace 
+     * @param widget_definition     Tag handle of the definition for the widget replace 
      * @return                      Pointer to the new widget
      */
     BALLTZE_API Widget *replace_widget(Widget *widget, TagHandle widget_definition) noexcept;
@@ -618,12 +698,13 @@ namespace Balltze::Engine {
      * Gets the size of a sprite in a bitmap.
      * @param bitmap                Bitmap tag data.
      * @param sequence_index        Sequence index of the bitmap.
-     * @return                      The size of the sprite.
+     * @param sprite_index          The index of the sprite from the sequence.
+     * @return                      Resolution of the sprite.
      * @throws std::runtime_error   If the bitmap tag handle is invalid.
      * @throws std::runtime_error   If the sequence index is invalid.
      * @throws std::runtime_error   If the sprite index is invalid.
      */
-    BALLTZE_API std::pair<std::size_t, std::size_t> get_bitmap_sequence_size(Engine::TagDefinitions::Bitmap *bitmap, std::size_t sequence_index);
+    BALLTZE_API Resolution get_bitmap_sprite_resolution(Engine::TagDefinitions::Bitmap *bitmap, std::size_t sequence_index, std::size_t sprite_index = 0);
 
     /**
      * Draws a icon bitmap on a HUD message.
@@ -648,7 +729,7 @@ namespace Balltze::Engine {
 
     /**
      * Play a sound from a given tag
-     * @param sound     Tag ID of the sound
+     * @param sound     Tag handle of the sound
      */
     BALLTZE_API void play_sound(TagHandle tag_sound);
 
@@ -658,7 +739,19 @@ namespace Balltze::Engine {
      * @param permutation           Pointer to sound permutation 
      * @return                      Duration of the sound permutation in milliseconds
      */
-    BALLTZE_API std::chrono::milliseconds get_sound_permutation_samples_duration(TagDefinitions::Sound *sound, TagDefinitions::SoundPermutation *permutation);
+    BALLTZE_API std::chrono::milliseconds get_sound_permutation_samples_duration(TagDefinitions::SoundPermutation *permutation);
+
+    /**
+     * Get the controls bindings
+     * @return controls
+     */
+    BALLTZE_API Controls &get_controls() noexcept;
+
+    /**
+     * Get the keyboard keys
+     * @return keyboard keys struct
+     */
+    BALLTZE_API KeyboardKeys &get_keyboard_keys() noexcept;
 }
 
 #endif

@@ -94,11 +94,11 @@ namespace Balltze::HEK::TagDefinitions {
 		Fraction gain;
 		Memory::BigEndian<SoundFormat> format;
 		Index next_permutation_index;
-		TagHandle unknown_tag_id;
+		TagHandle unknown_tag_handle;
 		Memory::BigEndian<std::uint32_t> samples_pointer;
-		TagHandle sound_tag_id_0;
+		TagHandle sound_tag_handle_0;
 		Memory::BigEndian<std::uint32_t> buffer_size;
-		TagHandle sound_tag_id_1;
+		TagHandle sound_tag_handle_1;
 		TagDataOffset samples;
 		TagDataOffset mouth_data;
 		TagDataOffset subtitle_data;

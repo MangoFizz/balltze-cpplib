@@ -5,6 +5,7 @@
 
 #include <string>
 #include <functional>
+#include <variant>
 #include <optional>
 #include <cstring>
 #include <cstddef>
@@ -27,8 +28,8 @@ namespace Balltze::Engine {
         /** Tertiary class; Unused */
         TagClassInt tertiary_class;
 
-        /** Tag ID of the tag */
-        TagHandle id;
+        /** Tag handle of the tag */
+        TagHandle handle;
 
         /** Tag path; this value *can* be invalid for some tags on protected maps; always check if it's within 0x40440000 - 0x41B40000 before trying to read it!! */
         char *path;
@@ -65,9 +66,16 @@ namespace Balltze::Engine {
 
         /**
          * Fix tag dependencies
-         * @param dependency_resolver Dependency resolver
+         * @param dependency_resolver A function that resolves tag handles from tag dependencies
          */
-        void fix_dependencies(std::function<TagDependency(TagDependency)> dependency_resolver);
+        void fix_dependencies(std::function<TagHandle(TagHandle, bool)> dependency_resolver);
+
+        /**
+         * Copy tag data to a new location
+         * @param  data_allocator A function that allocates memory for the copied structures from the original data and returns a pointer to the reserved memory
+         * @return                Pointer to copied data
+         */
+        std::byte *copy_data(std::function<std::byte *(std::byte *, std::size_t)> data_allocator);
     };
     static_assert(sizeof(Tag) == 0x20);
 
@@ -78,7 +86,7 @@ namespace Balltze::Engine {
         /** Pointer to first tag in tag array */
         Tag *tag_array;
 
-        /** Main scenario tag ID - pretty much every map has this as #0 as tool always puts it first, but don't rely on it (it's a great map protection that breaks most tools) */
+        /** Main scenario tag handle - pretty much every map has this as #0 as tool always puts it first, but don't rely on it (it's a great map protection that breaks most tools) */
         TagHandle scenario_tag;
 
         /** Unused random number */
@@ -119,10 +127,10 @@ namespace Balltze::Engine {
 
     /**
      * Get the tag
-     * @param  tag_id id of the tag
-     * @return        pointer to the tag if found, nullptr if not
+     * @param  tag_handle   handle of the tag
+     * @return              pointer to the tag if found, nullptr if not
      */
-    BALLTZE_API Tag *get_tag(TagHandle tag_id) noexcept;
+    BALLTZE_API Tag *get_tag(TagHandle tag_handle) noexcept;
 
     /**
      * Get the tag
