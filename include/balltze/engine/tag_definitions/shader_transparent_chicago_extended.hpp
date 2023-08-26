@@ -8,9 +8,9 @@
 #include "../data_types.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "shader.hpp"
-#include "shader_transparent_chicago.hpp"
 #include "shader_transparent_generic.hpp"
+#include "shader_transparent_chicago.hpp"
+#include "shader.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct ShaderTransparentChicagoExtended : public Shader {

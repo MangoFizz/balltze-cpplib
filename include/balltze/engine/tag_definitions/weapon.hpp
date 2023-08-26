@@ -8,8 +8,8 @@
 #include "../data_types.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "object.hpp"
 #include "item.hpp"
+#include "object.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum WeaponSecondaryTriggerMode : std::uint16_t {
