@@ -137,9 +137,9 @@ namespace Balltze::Engine::TagDefinitions {
 		std::uint32_t pixel_data_offset;
 		std::uint32_t pixel_data_size;
 		TagHandle bitmap_tag_handle;
-		std::byte *pointer;
-		PADDING(4);
-		PADDING(4);
+		std::uint32_t texture_cache_id;
+		std::byte *pixels_buffer;
+		std::byte *texture;
 	};
 	static_assert(sizeof(BitmapData) == 48);
 

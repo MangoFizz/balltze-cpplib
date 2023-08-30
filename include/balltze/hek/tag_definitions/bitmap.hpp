@@ -137,9 +137,9 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::uint32_t> pixel_data_offset;
 		Memory::BigEndian<std::uint32_t> pixel_data_size;
 		TagHandle bitmap_tag_handle;
-		std::byte *pointer;
-		PADDING(4);
-		PADDING(4);
+		Memory::BigEndian<std::uint32_t> texture_cache_id;
+		std::byte *pixels_buffer;
+		std::byte *texture;
 	};
 	static_assert(sizeof(BitmapData) == 48);
 
