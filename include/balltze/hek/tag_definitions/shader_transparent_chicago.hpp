@@ -8,8 +8,8 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "shader.hpp"
 #include "shader_transparent_generic.hpp"
+#include "shader.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	struct ShaderTransparentChicagoMapFlags {

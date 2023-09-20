@@ -138,8 +138,8 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::uint32_t> pixel_data_size;
 		TagHandle bitmap_tag_handle;
 		Memory::BigEndian<std::uint32_t> texture_cache_id;
-		std::byte *pixels_buffer;
 		std::byte *texture;
+		std::byte *pixels_buffer;
 	};
 	static_assert(sizeof(BitmapData) == 48);
 
