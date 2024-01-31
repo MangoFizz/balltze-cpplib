@@ -87,7 +87,7 @@ namespace Balltze::Engine {
         BaseObject* get_object(std::uint32_t index) noexcept;
 
         /**
-         * Spawn an object with an tag handle.
+         * Spawn an object.
          * @param  tag_handle   Tag handle of the object.
          * @param  offset       Offset of the object.
          * @param  parent       Parent object.
@@ -1508,7 +1508,7 @@ namespace Balltze::Engine {
     };
     static_assert(sizeof(AntennaVertex) == 0x20);
 
-    enum NetworkColor : std::uint16_t {
+    enum NetworkPlayerColor : std::uint16_t {
         NETWORK_COLOR_WHITE   = 0,
         NETWORK_COLOR_BLACK,
         NETWORK_COLOR_RED,
@@ -1619,7 +1619,7 @@ namespace Balltze::Engine {
         wchar_t name2[12];
 
         /** Color of the player in respect to FFA */
-        NetworkColor color;
+        NetworkPlayerColor color;
 
         std::int16_t icon_index;
 
@@ -1968,6 +1968,50 @@ namespace Balltze::Engine {
      * Get whether the game is paused
      */
     bool game_paused() noexcept;
+
+    /**
+     * This is the state the camera is in.
+     */
+    enum CameraType : std::uint16_t {
+        /** First person view; rendering the player's weapon */
+        CAMERA_FIRST_PERSON = 0,
+
+        /** Vehicle view (third person); can be controlled by the player */
+        CAMERA_VEHICLE,
+
+        /** Cinematic camera */
+        CAMERA_CINEMATIC,
+
+        /** Devcam or death cam */
+        CAMERA_DEBUG
+    };
+
+    /**
+     * Get the camera type.
+     * @return Return the camera type.
+     */
+    BALLTZE_API CameraType get_camera_type() noexcept;
+
+    struct CameraData {
+        /** This is the position of the camera. */
+        Point3D position;
+
+        /** More stuff */
+        std::uint32_t unknown[5];
+
+        /** Orientation/rotation of the camera. */
+        Point3D orientation[2];
+
+        /** FOV (radians) */
+        float fov;
+    };
+    static_assert(sizeof(CameraData) == 0x3C);
+
+    /**
+     * Get the camera data.
+     * @return Return a reference to the camera data.
+     */
+    BALLTZE_API CameraData &get_camera_data() noexcept;
 }
 
 #endif
