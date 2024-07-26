@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__PARTICLE_SYSTEM_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -73,7 +78,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(84);
 		ParticleSystemParticleCreationPhysics particle_creation_physics;
 		ParticleSystemParticleUpdatePhysics particle_update_physics;
-		TagReflexive<ParticleSystemPhysicsConstant> physics_constants;
+		TagBlock<ParticleSystemPhysicsConstant> physics_constants;
 	};
 	static_assert(sizeof(ParticleSystemTypeStates) == 192);
 
@@ -122,7 +127,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		float zsprite_radius_scale;
 		PADDING(20);
-		TagReflexive<ParticleSystemPhysicsConstant> physics_constants;
+		TagBlock<ParticleSystemPhysicsConstant> physics_constants;
 	};
 	static_assert(sizeof(ParticleSystemTypeParticleState) == 376);
 
@@ -138,9 +143,9 @@ namespace Balltze::Engine::TagDefinitions {
 		ParticleSystemParticleCreationPhysics particle_creation_physics;
 		PADDING(2);
 		IsUnusedFlag physics_flags;
-		TagReflexive<ParticleSystemPhysicsConstant> physics_constants;
-		TagReflexive<ParticleSystemTypeStates> states;
-		TagReflexive<ParticleSystemTypeParticleState> particle_states;
+		TagBlock<ParticleSystemPhysicsConstant> physics_constants;
+		TagBlock<ParticleSystemTypeStates> states;
+		TagBlock<ParticleSystemTypeParticleState> particle_states;
 	};
 	static_assert(sizeof(ParticleSystemType) == 128);
 
@@ -151,12 +156,14 @@ namespace Balltze::Engine::TagDefinitions {
 		ParticleSystemSystemUpdatePhysics system_update_physics;
 		PADDING(2);
 		IsUnusedFlag physics_flags;
-		TagReflexive<ParticleSystemPhysicsConstant> physics_constants;
-		TagReflexive<ParticleSystemType> particle_types;
+		TagBlock<ParticleSystemPhysicsConstant> physics_constants;
+		TagBlock<ParticleSystemType> particle_types;
 	};
 	static_assert(sizeof(ParticleSystem) == 104);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

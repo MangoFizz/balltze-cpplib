@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum EffectCreateIn : std::uint16_t {
 		EFFECT_CREATE_IN_ANY_ENVIRONMENT = 0,
@@ -151,8 +155,8 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> delay_bounds[2];
 		Memory::BigEndian<float> duration_bounds[2];
 		PADDING(20);
-		TagReflexive<EffectPart> parts;
-		TagReflexive<EffectParticle> particles;
+		TagBlock<EffectPart> parts;
+		TagBlock<EffectParticle> particles;
 	};
 	static_assert(sizeof(EffectEvent) == 68);
 
@@ -162,12 +166,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Index loop_stop_event;
 		Memory::BigEndian<float> maximum_damage_radius;
 		PADDING(28);
-		TagReflexive<EffectLocation> locations;
-		TagReflexive<EffectEvent> events;
+		TagBlock<EffectLocation> locations;
+		TagBlock<EffectEvent> events;
 	};
 	static_assert(sizeof(Effect) == 64);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

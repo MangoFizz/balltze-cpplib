@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SHADER_TRANSPARENT_WATER_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "shader.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -55,12 +60,14 @@ namespace Balltze::Engine::TagDefinitions {
 		Fraction ripple_mipmap_fade_factor;
 		float ripple_mipmap_detail_bias;
 		PADDING(64);
-		TagReflexive<ShaderTransparentWaterRipple> ripples;
+		TagBlock<ShaderTransparentWaterRipple> ripples;
 		PADDING(16);
 	};
 	static_assert(sizeof(ShaderTransparentWater) == 320);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

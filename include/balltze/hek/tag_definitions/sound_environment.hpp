@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct SoundEnvironment {
 		Memory::BigEndian<std::int32_t> unknown;
@@ -31,6 +35,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(SoundEnvironment) == 72);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

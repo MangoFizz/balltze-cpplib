@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__EFFECT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum EffectCreateIn : std::uint16_t {
@@ -151,8 +156,8 @@ namespace Balltze::Engine::TagDefinitions {
 		float delay_bounds[2];
 		float duration_bounds[2];
 		PADDING(20);
-		TagReflexive<EffectPart> parts;
-		TagReflexive<EffectParticle> particles;
+		TagBlock<EffectPart> parts;
+		TagBlock<EffectParticle> particles;
 	};
 	static_assert(sizeof(EffectEvent) == 68);
 
@@ -162,12 +167,14 @@ namespace Balltze::Engine::TagDefinitions {
 		Index loop_stop_event;
 		float maximum_damage_radius;
 		PADDING(28);
-		TagReflexive<EffectLocation> locations;
-		TagReflexive<EffectEvent> events;
+		TagBlock<EffectLocation> locations;
+		TagBlock<EffectEvent> events;
 	};
 	static_assert(sizeof(Effect) == 64);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

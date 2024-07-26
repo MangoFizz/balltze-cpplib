@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct CameraTrackControlPoint {
 		Point3D position;
@@ -19,12 +23,14 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct CameraTrack {
 		Memory::BigEndian<IsUnusedFlag> flags;
-		TagReflexive<CameraTrackControlPoint> control_points;
+		TagBlock<CameraTrackControlPoint> control_points;
 		PADDING(32);
 	};
 	static_assert(sizeof(CameraTrack) == 48);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

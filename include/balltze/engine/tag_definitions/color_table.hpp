@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__COLOR_TABLE_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct ColorTableColor {
@@ -17,11 +22,13 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ColorTableColor) == 48);
 
 	struct ColorTable {
-		TagReflexive<ColorTableColor> colors;
+		TagBlock<ColorTableColor> colors;
 	};
 	static_assert(sizeof(ColorTable) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

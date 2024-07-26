@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct LightVolumeFlags {
 		std::uint16_t interpolate_color_in_hsv : 1;
@@ -54,12 +58,14 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(2);
 		PADDING(36);
 		PADDING(64);
-		TagReflexive<LightVolumeFrame> frames;
+		TagBlock<LightVolumeFrame> frames;
 		PADDING(32);
 	};
 	static_assert(sizeof(LightVolume) == 332);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

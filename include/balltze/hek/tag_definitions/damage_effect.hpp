@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum DamageEffectScreenFlashType : std::uint16_t {
 		DAMAGE_EFFECT_SCREEN_FLASH_TYPE_NONE = 0,
@@ -195,6 +199,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(DamageEffect) == 672);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

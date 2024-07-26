@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__OBJECT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum PredictedResourceType : std::uint16_t {
@@ -151,7 +156,7 @@ namespace Balltze::Engine::TagDefinitions {
 		ColorInterpolationFlags flags;
 		ColorRGB color_lower_bound;
 		ColorRGB color_upper_bound;
-		TagReflexive<ObjectChangeColorsPermutation> permutations;
+		TagBlock<ObjectChangeColorsPermutation> permutations;
 	};
 	static_assert(sizeof(ObjectChangeColors) == 44);
 
@@ -179,11 +184,11 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(44);
 		std::int16_t hud_text_message_index;
 		std::int16_t forced_shader_permutation_index;
-		TagReflexive<ObjectAttachment> attachments;
-		TagReflexive<ObjectWidget> widgets;
-		TagReflexive<ObjectFunction> functions;
-		TagReflexive<ObjectChangeColors> change_colors;
-		TagReflexive<PredictedResource> predicted_resources;
+		TagBlock<ObjectAttachment> attachments;
+		TagBlock<ObjectWidget> widgets;
+		TagBlock<ObjectFunction> functions;
+		TagBlock<ObjectChangeColors> change_colors;
+		TagBlock<PredictedResource> predicted_resources;
 	};
 	static_assert(sizeof(Object) == 380);
 
@@ -195,6 +200,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(BasicObject) == 508);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

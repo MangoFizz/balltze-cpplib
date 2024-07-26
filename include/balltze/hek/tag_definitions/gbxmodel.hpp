@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "model.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -24,7 +28,7 @@ namespace Balltze::HEK::TagDefinitions {
 	struct GBXModelGeometry {
 		Memory::BigEndian<IsUnusedFlag> flags;
 		PADDING(32);
-		TagReflexive<GBXModelGeometryPart> parts;
+		TagBlock<GBXModelGeometryPart> parts;
 	};
 	static_assert(sizeof(GBXModelGeometry) == 48);
 
@@ -46,15 +50,17 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> base_map_u_scale;
 		Memory::BigEndian<float> base_map_v_scale;
 		PADDING(116);
-		TagReflexive<ModelMarker> markers;
-		TagReflexive<ModelNode> nodes;
-		TagReflexive<ModelRegion> regions;
-		TagReflexive<GBXModelGeometry> geometries;
-		TagReflexive<ModelShaderReference> shaders;
+		TagBlock<ModelMarker> markers;
+		TagBlock<ModelNode> nodes;
+		TagBlock<ModelRegion> regions;
+		TagBlock<GBXModelGeometry> geometries;
+		TagBlock<ModelShaderReference> shaders;
 	};
 	static_assert(sizeof(Gbxmodel) == 232);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

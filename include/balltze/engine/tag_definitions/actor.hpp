@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__ACTOR_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum ActorType : std::uint16_t {
@@ -233,6 +238,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(Actor) == 1272);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

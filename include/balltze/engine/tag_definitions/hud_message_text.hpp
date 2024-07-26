@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__HUD_MESSAGE_TEXT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct HUDMessageTextElement {
@@ -28,13 +33,15 @@ namespace Balltze::Engine::TagDefinitions {
 
 	struct HudMessageText {
 		TagDataOffset text_data;
-		TagReflexive<HUDMessageTextElement> message_elements;
-		TagReflexive<HUDMessageTextMessage> messages;
+		TagBlock<HUDMessageTextElement> message_elements;
+		TagBlock<HUDMessageTextMessage> messages;
 		PADDING(84);
 	};
 	static_assert(sizeof(HudMessageText) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

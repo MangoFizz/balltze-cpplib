@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__FLAG_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum FlagTrailingEdgeShape : std::uint16_t {
@@ -46,11 +51,13 @@ namespace Balltze::Engine::TagDefinitions {
 		float wind_noise;
 		PADDING(8);
 		TagDependency blue_flag_shader;
-		TagReflexive<FlagAttachmentPoint> attachment_points;
+		TagBlock<FlagAttachmentPoint> attachment_points;
 	};
 	static_assert(sizeof(Flag) == 96);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

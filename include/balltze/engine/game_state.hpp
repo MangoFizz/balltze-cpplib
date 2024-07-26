@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <balltze/engine/tag_definitions/scenario.hpp>
 #include <balltze/engine/tag_definitions/damage_effect.hpp>
-#include <balltze/engine/multiplayer.hpp>
+#include <balltze/engine/netgame.hpp>
 #include "../memory.hpp"
 #include "data_types.hpp"
 
@@ -416,6 +416,15 @@ namespace Balltze::Engine {
     };
     static_assert(sizeof(BaseObjectBlockReference) == 0x4);
 
+    struct ObjectValidOutGoingFunctions {
+        bool a : 1;
+        bool b : 1;
+        bool c : 1;
+        bool d : 1;
+        PADDING_BIT(bool, 4);
+    };
+    static_assert(sizeof(ObjectValidOutGoingFunctions) == 0x1);
+
     /**
      * These are objects that are present in an instance of Halo rather than in tag data and have parameters such as location and health.
      */
@@ -478,7 +487,7 @@ namespace Balltze::Engine {
             TagDefinitions::ScenarioTeamIndex team_owner;
 
             /** Multiplayer team index */
-            MultiplayerTeam multiplayer_team_owner;
+            NetworkGameMultiplayerTeam multiplayer_team_owner;
         };
 
         /** Name list index */
@@ -541,12 +550,7 @@ namespace Balltze::Engine {
         /** Force shield update */
         bool force_shield_update;
 
-        struct ObjectValidOutGoingFunctions {
-            bool a : 1;
-            bool b : 1;
-            bool c : 1;
-            bool d : 1;
-        } valid_outgoing_functions; 
+        ObjectValidOutGoingFunctions valid_outgoing_functions; 
         float incoming_function_values[4];
         float outgoing_function_values[4];
 
@@ -588,12 +592,12 @@ namespace Balltze::Engine {
             auto& table = get_object_table();
 
             ObjectHandle returned_id;
-            returned_id.handle = 0xFFFFFFFF;
+            returned_id.value = 0xFFFFFFFF;
 
             for (std::size_t i = 0; i < table.current_size; i++) {
                 auto& object = table.first_element[i];
                 if (object.object == this) {
-                    returned_id.handle = i + 0x10000 * object.id;
+                    returned_id.value = i + 0x10000 * object.id;
                     return returned_id;
                 }
             }
@@ -963,11 +967,9 @@ namespace Balltze::Engine {
 
     struct UnitObject : BaseObject {
         TagHandle actor;
-        struct {
-            TagHandle actor;
-            ObjectHandle next_unit;
-            ObjectHandle previous_unit;
-        } swarm;
+        TagHandle swarm_actor;
+        ObjectHandle swarm_next_unit;
+        ObjectHandle swarm_previous_unit;
         UnitFlags unit_flags;
         UnitControlFlags unit_control_flags;
         PADDING(0x4);
@@ -1065,20 +1067,6 @@ namespace Balltze::Engine {
         PADDING(3);
         int32_t last_completed_client_update_id;
         PADDING(12);
-
-        /**
-         * Makes the unit enter a vehicle
-         * @param vehicle_handle    Handle of the vehicle to enter
-         * @param seat_label        Label of the seat to enter
-         */
-        void enter_vehicle(ObjectHandle vehicle_handle, std::string seat_label);
-
-        /**
-         * Makes the unit enter a vehicle
-         * @param vehicle_handle    Handle of the vehicle to enter
-         * @param seat_index        Index of the seat to enter
-         */
-        void enter_vehicle(ObjectHandle vehicle_handle, std::size_t seat_index);
     };
     static_assert(sizeof(UnitObject) == 0x4CC);
 
@@ -1218,17 +1206,13 @@ namespace Balltze::Engine {
     struct ItemObject : BaseObject {
         std::uint32_t flags;
         std::int16_t ticks_until_detonation;
-        struct {
-            std::int16_t surface_id;
-            std::int16_t reference_id; // bsp_reference_id
-        } bsp_collision;
+        std::int16_t bsp_collision_surface_id;
+        std::int16_t bsp_collision_reference_id; // bsp_reference_id        
         PADDING(2);
         ObjectHandle dropped_by_unit; // Set when a unit that held this item drops it.
         std::int32_t last_update_tick;
-        struct {
-            ObjectHandle object;
-            Vector3D object_position;
-        } object_collision;
+        ObjectHandle collision_object_handle;
+        Vector3D collision_object_position;
         Vector3D unknown_collision_position; // ? My guesses without checking it yet.
         Euler2D unknown_collision_angle; // ?
     };
@@ -1565,6 +1549,21 @@ namespace Balltze::Engine {
             std::int16_t best_time;
         } race;
     }; static_assert(sizeof(PlayerMultiplayerStatistics) == 8);
+
+    enum PlayerInteractionType : std::uint16_t {
+        PLAYER_INTERACTION_TYPE_NONE,
+        PLAYER_INTERACTION_TYPE_PICKUP_POWERUP,
+        PLAYER_INTERACTION_TYPE_SWAP_POWERUP,
+        PLAYER_INTERACTION_TYPE_EXIT_SEAT,
+        PLAYER_INTERACTION_TYPE_FOUR, // Unknown
+        PLAYER_INTERACTION_TYPE_SWAP_EQUIPMENT,
+        PLAYER_INTERACTION_TYPE_SWAP_WEAPON,
+        PLAYER_INTERACTION_TYPE_PICKUP_WEAPON,
+        PLAYER_INTERACTION_TYPE_ENTER_SEAT,
+        PLAYER_INTERACTION_TYPE_FORCE_AI_TO_EXIT_SEAT,
+        PLAYER_INTERACTION_TYPE_TOUCH_DEVICE,
+        PLAYER_INTERACTION_TYPE_FLIP_VEHICLE
+    };
 
     /**
      * These are players.

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct TagCollectionTag {
 		TagDependency reference;
@@ -16,11 +20,13 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(TagCollectionTag) == 16);
 
 	struct TagCollection {
-		TagReflexive<TagCollectionTag> tags;
+		TagBlock<TagCollectionTag> tags;
 	};
 	static_assert(sizeof(TagCollection) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

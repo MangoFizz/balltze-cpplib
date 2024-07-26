@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct MaterialEffectsMaterialEffectMaterial {
 		TagDependency effect;
@@ -18,18 +22,20 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(MaterialEffectsMaterialEffectMaterial) == 48);
 
 	struct MaterialEffectsMaterialEffect {
-		TagReflexive<MaterialEffectsMaterialEffectMaterial> materials;
+		TagBlock<MaterialEffectsMaterialEffectMaterial> materials;
 		PADDING(16);
 	};
 	static_assert(sizeof(MaterialEffectsMaterialEffect) == 28);
 
 	struct MaterialEffects {
-		TagReflexive<MaterialEffectsMaterialEffect> effects;
+		TagBlock<MaterialEffectsMaterialEffect> effects;
 		PADDING(128);
 	};
 	static_assert(sizeof(MaterialEffects) == 140);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

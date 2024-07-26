@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum HUDInterfaceDestinationType : std::uint16_t {
 		H_U_D_INTERFACE_DESTINATION_TYPE_TINT_0_1 = 0,
@@ -156,12 +160,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<HUDInterfaceWrapMode> tertiary_wrap_mode;
 		PADDING(2);
 		PADDING(184);
-		TagReflexive<HUDInterfaceMultitextureOverlayEffector> effectors;
+		TagBlock<HUDInterfaceMultitextureOverlayEffector> effectors;
 		PADDING(128);
 	};
 	static_assert(sizeof(HUDInterfaceMultitextureOverlay) == 480);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

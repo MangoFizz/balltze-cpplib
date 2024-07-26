@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum VirtualKeyboardKeyboardKey : std::uint16_t {
 		VIRTUAL_KEYBOARD_KEYBOARD_KEY_1 = 0,
@@ -77,11 +81,13 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency display_font;
 		TagDependency background_bitmap;
 		TagDependency special_key_labels_string_list;
-		TagReflexive<VirtualKeyboardVirtualKey> virtual_keys;
+		TagBlock<VirtualKeyboardVirtualKey> virtual_keys;
 	};
 	static_assert(sizeof(VirtualKeyboard) == 60);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

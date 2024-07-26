@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "shader.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -55,12 +59,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Fraction ripple_mipmap_fade_factor;
 		Memory::BigEndian<float> ripple_mipmap_detail_bias;
 		PADDING(64);
-		TagReflexive<ShaderTransparentWaterRipple> ripples;
+		TagBlock<ShaderTransparentWaterRipple> ripples;
 		PADDING(16);
 	};
 	static_assert(sizeof(ShaderTransparentWater) == 320);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

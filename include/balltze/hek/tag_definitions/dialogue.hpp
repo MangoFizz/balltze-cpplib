@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct Dialogue {
 		PADDING(2);
@@ -228,6 +232,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Dialogue) == 4112);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

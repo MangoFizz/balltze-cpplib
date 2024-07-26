@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__UI_WIDGET_DEFINITION_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum UIGameDataInputReferenceFunction : std::uint16_t {
@@ -350,14 +355,14 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(EventHandlerReferencesFlags) == sizeof(std::uint32_t));
 
 	struct ConditionalWidgetReferenceFlags {
-		std::uint16_t load_if_event_handler_function_fails : 1;
+		std::uint32_t load_if_event_handler_function_fails : 1;
 	};
-	static_assert(sizeof(ConditionalWidgetReferenceFlags) == sizeof(std::uint16_t));
+	static_assert(sizeof(ConditionalWidgetReferenceFlags) == sizeof(std::uint32_t));
 
 	struct ChildWidgetReferenceFlags {
-		std::uint16_t use_custom_controller_index : 1;
+		std::uint32_t use_custom_controller_index : 1;
 	};
-	static_assert(sizeof(ChildWidgetReferenceFlags) == sizeof(std::uint16_t));
+	static_assert(sizeof(ChildWidgetReferenceFlags) == sizeof(std::uint32_t));
 
 	struct UIWidgetDefinitionFlags {
 		std::uint32_t pass_unhandled_events_to_focused_child : 1;
@@ -380,12 +385,12 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(UIWidgetDefinitionFlags) == sizeof(std::uint32_t));
 
 	struct UIWidgetDefinitionFlags1 {
-		std::uint16_t editable : 1;
-		std::uint16_t password : 1;
-		std::uint16_t flashing : 1;
-		std::uint16_t dont_do_that_weird_focus_test : 1;
+		std::uint32_t editable : 1;
+		std::uint32_t password : 1;
+		std::uint32_t flashing : 1;
+		std::uint32_t dont_do_that_weird_focus_test : 1;
 	};
-	static_assert(sizeof(UIWidgetDefinitionFlags1) == sizeof(std::uint16_t));
+	static_assert(sizeof(UIWidgetDefinitionFlags1) == sizeof(std::uint32_t));
 
 	struct UIWidgetDefinitionFlags2 {
 		std::uint32_t list_items_generated_in_code : 1;
@@ -447,9 +452,9 @@ namespace Balltze::Engine::TagDefinitions {
 		std::int32_t milliseconds_to_auto_close;
 		std::int32_t milliseconds_auto_close_fade_time;
 		TagDependency background_bitmap;
-		TagReflexive<GameDataInputReference> game_data_inputs;
-		TagReflexive<EventHandlerReference> event_handlers;
-		TagReflexive<SearchAndReplaceReference> search_and_replace_functions;
+		TagBlock<GameDataInputReference> game_data_inputs;
+		TagBlock<EventHandlerReference> event_handlers;
+		TagBlock<SearchAndReplaceReference> search_and_replace_functions;
 		PADDING(128);
 		TagDependency text_label_unicode_strings_list;
 		TagDependency text_font;
@@ -471,14 +476,16 @@ namespace Balltze::Engine::TagDefinitions {
 		TagDependency extended_description_widget;
 		PADDING(32);
 		PADDING(256);
-		TagReflexive<ConditionalWidgetReference> conditional_widgets;
+		TagBlock<ConditionalWidgetReference> conditional_widgets;
 		PADDING(128);
 		PADDING(128);
-		TagReflexive<ChildWidgetReference> child_widgets;
+		TagBlock<ChildWidgetReference> child_widgets;
 	};
 	static_assert(sizeof(UiWidgetDefinition) == 1004);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum ParticleOrientation : std::uint16_t {
 		PARTICLE_ORIENTATION_SCREEN_FACING = 0,
@@ -106,6 +110,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Particle) == 356);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

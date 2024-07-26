@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__LIGHTNING_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -61,13 +66,15 @@ namespace Balltze::Engine::TagDefinitions {
 		FunctionOut brightness_scale_source;
 		TagDependency bitmap;
 		PADDING(84);
-		TagReflexive<LightningMarker> markers;
-		TagReflexive<LightningShader> shader;
+		TagBlock<LightningMarker> markers;
+		TagBlock<LightningShader> shader;
 		PADDING(88);
 	};
 	static_assert(sizeof(Lightning) == 264);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum GlowBoundaryEffect : std::uint16_t {
 		GLOW_BOUNDARY_EFFECT_BOUNCE = 0,
@@ -92,6 +96,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Glow) == 340);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

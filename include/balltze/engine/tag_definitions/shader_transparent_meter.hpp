@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SHADER_TRANSPARENT_METER_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "shader.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -45,6 +50,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ShaderTransparentMeter) == 260);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

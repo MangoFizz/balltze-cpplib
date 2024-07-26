@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "hud_interface_types.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -147,7 +151,7 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(4);
 		Index sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> multitexture_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> multitexture_overlays;
 		PADDING(4);
 		PADDING(40);
 	};
@@ -247,7 +251,7 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(2);
 		PADDING(28);
 		TagDependency crosshair_bitmap;
-		TagReflexive<WeaponHUDInterfaceCrosshairOverlay> crosshair_overlays;
+		TagBlock<WeaponHUDInterfaceCrosshairOverlay> crosshair_overlays;
 		PADDING(40);
 	};
 	static_assert(sizeof(WeaponHUDInterfaceCrosshair) == 104);
@@ -285,7 +289,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<HUDInterfaceChildAnchor> anchor;
 		PADDING(28);
 		TagDependency overlay_bitmap;
-		TagReflexive<WeaponHUDInterfaceOverlay> overlays;
+		TagBlock<WeaponHUDInterfaceOverlay> overlays;
 		PADDING(40);
 	};
 	static_assert(sizeof(WeaponHUDInterfaceOverlayElement) == 104);
@@ -327,14 +331,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<HUDInterfaceAnchor> anchor;
 		PADDING(2);
 		PADDING(32);
-		TagReflexive<WeaponHUDInterfaceStaticElement> static_elements;
-		TagReflexive<WeaponHUDInterfaceMeter> meter_elements;
-		TagReflexive<WeaponHUDInterfaceNumber> number_elements;
-		TagReflexive<WeaponHUDInterfaceCrosshair> crosshairs;
-		TagReflexive<WeaponHUDInterfaceOverlayElement> overlay_elements;
+		TagBlock<WeaponHUDInterfaceStaticElement> static_elements;
+		TagBlock<WeaponHUDInterfaceMeter> meter_elements;
+		TagBlock<WeaponHUDInterfaceNumber> number_elements;
+		TagBlock<WeaponHUDInterfaceCrosshair> crosshairs;
+		TagBlock<WeaponHUDInterfaceOverlayElement> overlay_elements;
 		Memory::BigEndian<WeaponHUDInterfaceCrosshairTypeFlags> crosshair_types;
 		PADDING(12);
-		TagReflexive<WeaponHUDInterfaceScreenEffect> screen_effect;
+		TagBlock<WeaponHUDInterfaceScreenEffect> screen_effect;
 		PADDING(132);
 		Index sequence_index;
 		Memory::BigEndian<std::int16_t> width_offset;
@@ -348,6 +352,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(WeaponHudInterface) == 380);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

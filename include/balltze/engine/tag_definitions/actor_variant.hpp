@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__ACTOR_VARIANT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "unit.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -156,11 +161,13 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(2);
 		PADDING(16);
 		PADDING(12);
-		TagReflexive<ActorVariantChangeColors> change_colors;
+		TagBlock<ActorVariantChangeColors> change_colors;
 	};
 	static_assert(sizeof(ActorVariant) == 568);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

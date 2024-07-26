@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct ColorTableColor {
 		TagString name;
@@ -17,11 +21,13 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ColorTableColor) == 48);
 
 	struct ColorTable {
-		TagReflexive<ColorTableColor> colors;
+		TagBlock<ColorTableColor> colors;
 	};
 	static_assert(sizeof(ColorTable) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

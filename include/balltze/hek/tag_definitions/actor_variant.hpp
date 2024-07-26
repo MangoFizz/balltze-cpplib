@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "unit.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -156,11 +160,13 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(2);
 		PADDING(16);
 		PADDING(12);
-		TagReflexive<ActorVariantChangeColors> change_colors;
+		TagBlock<ActorVariantChangeColors> change_colors;
 	};
 	static_assert(sizeof(ActorVariant) == 568);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

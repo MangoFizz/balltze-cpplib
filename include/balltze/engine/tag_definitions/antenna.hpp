@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__ANTENNA_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct AntennaVertex {
@@ -34,11 +39,13 @@ namespace Balltze::Engine::TagDefinitions {
 		float cutoff_pixels;
 		float length;
 		PADDING(36);
-		TagReflexive<AntennaVertex> vertices;
+		TagBlock<AntennaVertex> vertices;
 	};
 	static_assert(sizeof(Antenna) == 208);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

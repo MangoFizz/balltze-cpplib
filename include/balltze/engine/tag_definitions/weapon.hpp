@@ -5,11 +5,16 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__WEAPON_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "object.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "item.hpp"
+#include "object.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum WeaponSecondaryTriggerMode : std::uint16_t {
@@ -142,7 +147,7 @@ namespace Balltze::Engine::TagDefinitions {
 		TagDependency reloading_effect;
 		TagDependency chambering_effect;
 		PADDING(12);
-		TagReflexive<WeaponMagazineObject> magazine_objects;
+		TagBlock<WeaponMagazineObject> magazine_objects;
 	};
 	static_assert(sizeof(WeaponMagazine) == 112);
 
@@ -208,7 +213,7 @@ namespace Balltze::Engine::TagDefinitions {
 		float firing_deceleration_rate;
 		float error_acceleration_rate;
 		float error_deceleration_rate;
-		TagReflexive<WeaponTriggerFiringEffect> firing_effects;
+		TagBlock<WeaponTriggerFiringEffect> firing_effects;
 	};
 	static_assert(sizeof(WeaponTrigger) == 276);
 
@@ -278,13 +283,15 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(12);
 		PADDING(2);
 		WeaponType weapon_type;
-		TagReflexive<PredictedResource> more_predicted_resources;
-		TagReflexive<WeaponMagazine> magazines;
-		TagReflexive<WeaponTrigger> triggers;
+		TagBlock<PredictedResource> more_predicted_resources;
+		TagBlock<WeaponMagazine> magazines;
+		TagBlock<WeaponTrigger> triggers;
 	};
 	static_assert(sizeof(Weapon) == 1288);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

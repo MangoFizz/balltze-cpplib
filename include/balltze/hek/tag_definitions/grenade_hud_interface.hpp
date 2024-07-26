@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "hud_interface_types.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -81,7 +85,7 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(4);
 		Index background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> background_multitexture_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> background_multitexture_overlays;
 		PADDING(4);
 		Point2DInt total_grenades_background_anchor_offset;
 		Memory::BigEndian<float> total_grenades_background_width_scale;
@@ -101,7 +105,7 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(4);
 		Index total_grenades_background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> total_grenades_background_multitexture_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> total_grenades_background_multitexture_overlays;
 		PADDING(4);
 		Point2DInt total_grenades_numbers_anchor_offset;
 		Memory::BigEndian<float> total_grenades_numbers_width_scale;
@@ -126,8 +130,8 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::int16_t> flash_cutoff;
 		PADDING(2);
 		TagDependency total_grenades_overlay_bitmap;
-		TagReflexive<GrenadeHUDInterfaceOverlay> total_grenades_overlays;
-		TagReflexive<GrenadeHUDInterfaceSound> total_grenades_warning_sounds;
+		TagBlock<GrenadeHUDInterfaceOverlay> total_grenades_overlays;
+		TagBlock<GrenadeHUDInterfaceSound> total_grenades_warning_sounds;
 		PADDING(68);
 		Index messaging_information_sequence_index;
 		Memory::BigEndian<std::int16_t> messaging_information_width_offset;
@@ -141,6 +145,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(GrenadeHudInterface) == 504);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

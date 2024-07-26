@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__MATERIAL_EFFECTS_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct MaterialEffectsMaterialEffectMaterial {
@@ -18,18 +23,20 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(MaterialEffectsMaterialEffectMaterial) == 48);
 
 	struct MaterialEffectsMaterialEffect {
-		TagReflexive<MaterialEffectsMaterialEffectMaterial> materials;
+		TagBlock<MaterialEffectsMaterialEffectMaterial> materials;
 		PADDING(16);
 	};
 	static_assert(sizeof(MaterialEffectsMaterialEffect) == 28);
 
 	struct MaterialEffects {
-		TagReflexive<MaterialEffectsMaterialEffect> effects;
+		TagBlock<MaterialEffectsMaterialEffect> effects;
 		PADDING(128);
 	};
 	static_assert(sizeof(MaterialEffects) == 140);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

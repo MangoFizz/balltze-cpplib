@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct ModelCollisionGeometryMaterialFlags {
 		std::uint32_t head : 1;
@@ -78,7 +82,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> damage_threshold;
 		PADDING(12);
 		TagDependency destroyed_effect;
-		TagReflexive<ModelCollisionGeometryPermutation> permutations;
+		TagBlock<ModelCollisionGeometryPermutation> permutations;
 	};
 	static_assert(sizeof(ModelCollisionGeometryRegion) == 84);
 
@@ -154,14 +158,14 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ModelCollisionGeometryBSPVertex) == 16);
 
 	struct ModelCollisionGeometryBSP {
-		TagReflexive<ModelCollisionGeometryBSP3DNode> bsp3d_nodes;
-		TagReflexive<ModelCollisionGeometryBSPPlane> planes;
-		TagReflexive<ModelCollisionGeometryBSPLeaf> leaves;
-		TagReflexive<ModelCollisionGeometryBSP2DReference> bsp2d_references;
-		TagReflexive<ModelCollisionGeometryBSP2DNode> bsp2d_nodes;
-		TagReflexive<ModelCollisionGeometryBSPSurface> surfaces;
-		TagReflexive<ModelCollisionGeometryBSPEdge> edges;
-		TagReflexive<ModelCollisionGeometryBSPVertex> vertices;
+		TagBlock<ModelCollisionGeometryBSP3DNode> bsp3d_nodes;
+		TagBlock<ModelCollisionGeometryBSPPlane> planes;
+		TagBlock<ModelCollisionGeometryBSPLeaf> leaves;
+		TagBlock<ModelCollisionGeometryBSP2DReference> bsp2d_references;
+		TagBlock<ModelCollisionGeometryBSP2DNode> bsp2d_nodes;
+		TagBlock<ModelCollisionGeometryBSPSurface> surfaces;
+		TagBlock<ModelCollisionGeometryBSPEdge> edges;
+		TagBlock<ModelCollisionGeometryBSPVertex> vertices;
 	};
 	static_assert(sizeof(ModelCollisionGeometryBSP) == 96);
 
@@ -173,7 +177,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Index first_child_node;
 		PADDING(10);
 		Memory::BigEndian<std::int16_t> name_thing;
-		TagReflexive<ModelCollisionGeometryBSP> bsps;
+		TagBlock<ModelCollisionGeometryBSP> bsps;
 	};
 	static_assert(sizeof(ModelCollisionGeometryNode) == 64);
 
@@ -217,19 +221,21 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(8);
 		Memory::BigEndian<float> shield_recharge_rate;
 		PADDING(112);
-		TagReflexive<ModelCollisionGeometryMaterial> materials;
-		TagReflexive<ModelCollisionGeometryRegion> regions;
-		TagReflexive<ModelCollisionGeometryModifier> modifiers;
+		TagBlock<ModelCollisionGeometryMaterial> materials;
+		TagBlock<ModelCollisionGeometryRegion> regions;
+		TagBlock<ModelCollisionGeometryModifier> modifiers;
 		PADDING(16);
 		Memory::BigEndian<float> x[2];
 		Memory::BigEndian<float> y[2];
 		Memory::BigEndian<float> z[2];
-		TagReflexive<ModelCollisionGeometrySphere> pathfinding_spheres;
-		TagReflexive<ModelCollisionGeometryNode> nodes;
+		TagBlock<ModelCollisionGeometrySphere> pathfinding_spheres;
+		TagBlock<ModelCollisionGeometryNode> nodes;
 	};
 	static_assert(sizeof(ModelCollisionGeometry) == 664);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

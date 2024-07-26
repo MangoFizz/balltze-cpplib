@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__LENS_FLARE_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum LensFlareRadiusScaledBy : std::uint16_t {
@@ -103,12 +108,14 @@ namespace Balltze::Engine::TagDefinitions {
 		float horizontal_scale;
 		float vertical_scale;
 		PADDING(28);
-		TagReflexive<LensFlareReflection> reflections;
+		TagBlock<LensFlareReflection> reflections;
 		PADDING(32);
 	};
 	static_assert(sizeof(LensFlare) == 240);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

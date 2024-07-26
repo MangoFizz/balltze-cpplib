@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum BitmapDataType : std::uint16_t {
 		BITMAP_DATA_TYPE_2D_TEXTURE = 0,
@@ -119,12 +123,12 @@ namespace Balltze::HEK::TagDefinitions {
 		Index first_bitmap_index;
 		Memory::BigEndian<std::uint16_t> bitmap_count;
 		PADDING(16);
-		TagReflexive<BitmapGroupSprite> sprites;
+		TagBlock<BitmapGroupSprite> sprites;
 	};
 	static_assert(sizeof(BitmapGroupSequence) == 64);
 
 	struct BitmapData {
-		TagFourCC bitmap_class;
+		TagClassInt bitmap_class;
 		Memory::BigEndian<std::uint16_t> width;
 		Memory::BigEndian<std::uint16_t> height;
 		Memory::BigEndian<std::uint16_t> depth;
@@ -163,12 +167,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<BitmapSpriteUsage> sprite_usage;
 		Memory::BigEndian<std::uint16_t> sprite_spacing;
 		PADDING(2);
-		TagReflexive<BitmapGroupSequence> bitmap_group_sequence;
-		TagReflexive<BitmapData> bitmap_data;
+		TagBlock<BitmapGroupSequence> bitmap_group_sequence;
+		TagBlock<BitmapData> bitmap_data;
 	};
 	static_assert(sizeof(Bitmap) == 108);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

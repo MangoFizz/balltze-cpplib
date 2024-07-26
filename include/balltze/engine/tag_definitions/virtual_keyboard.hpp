@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__VIRTUAL_KEYBOARD_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum VirtualKeyboardKeyboardKey : std::uint16_t {
@@ -77,11 +82,13 @@ namespace Balltze::Engine::TagDefinitions {
 		TagDependency display_font;
 		TagDependency background_bitmap;
 		TagDependency special_key_labels_string_list;
-		TagReflexive<VirtualKeyboardVirtualKey> virtual_keys;
+		TagBlock<VirtualKeyboardVirtualKey> virtual_keys;
 	};
 	static_assert(sizeof(VirtualKeyboard) == 60);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

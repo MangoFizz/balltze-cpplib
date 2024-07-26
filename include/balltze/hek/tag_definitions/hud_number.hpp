@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct HudNumber {
 		TagDependency digits_bitmap;
@@ -24,6 +28,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(HudNumber) == 100);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

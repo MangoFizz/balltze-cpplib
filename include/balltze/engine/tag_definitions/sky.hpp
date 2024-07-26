@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SKY_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct SkyLightFlags {
@@ -64,13 +69,15 @@ namespace Balltze::Engine::TagDefinitions {
 		float indoor_fog_opaque_distance;
 		TagDependency indoor_fog_screen;
 		PADDING(4);
-		TagReflexive<SkyFunction> shader_functions;
-		TagReflexive<SkyAnimation> animations;
-		TagReflexive<SkyLight> lights;
+		TagBlock<SkyFunction> shader_functions;
+		TagBlock<SkyAnimation> animations;
+		TagBlock<SkyLight> lights;
 	};
 	static_assert(sizeof(Sky) == 208);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

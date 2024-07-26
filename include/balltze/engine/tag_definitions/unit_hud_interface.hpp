@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__UNIT_HUD_INTERFACE_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "hud_interface_types.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -57,7 +62,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> multitex_overlay;
+		TagBlock<HUDInterfaceMultitextureOverlay> multitex_overlay;
 		PADDING(4);
 		UnitHUDInterfacePanelType type;
 		UnitHUDInterfaceAuxiliaryOverlayFlags flags;
@@ -95,7 +100,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> background_multitex_overlay;
+		TagBlock<HUDInterfaceMultitextureOverlay> background_multitex_overlay;
 		PADDING(4);
 		Point2DInt meter_anchor_offset;
 		float meter_width_scale;
@@ -148,7 +153,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index hud_background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> hud_background_multitex_overlay;
+		TagBlock<HUDInterfaceMultitextureOverlay> hud_background_multitex_overlay;
 		PADDING(4);
 		Point2DInt shield_panel_background_anchor_offset;
 		float shield_panel_background_width_scale;
@@ -168,7 +173,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index shield_panel_background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> shield_panel_background_multitex_overlay;
+		TagBlock<HUDInterfaceMultitextureOverlay> shield_panel_background_multitex_overlay;
 		PADDING(4);
 		Point2DInt shield_panel_meter_anchor_offset;
 		float shield_panel_meter_width_scale;
@@ -215,7 +220,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index health_panel_background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> health_panel_background_multitex_overlay;
+		TagBlock<HUDInterfaceMultitextureOverlay> health_panel_background_multitex_overlay;
 		PADDING(4);
 		Point2DInt health_panel_meter_anchor_offset;
 		float health_panel_meter_width_scale;
@@ -261,7 +266,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index motion_sensor_background_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> motion_sensor_background_multitex_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> motion_sensor_background_multitex_overlays;
 		PADDING(4);
 		Point2DInt motion_sensor_foreground_anchor_offset;
 		float motion_sensor_foreground_width_scale;
@@ -281,7 +286,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index motion_sensor_foreground_sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> motion_sensor_foreground_multitex_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> motion_sensor_foreground_multitex_overlays;
 		PADDING(4);
 		PADDING(32);
 		Point2DInt motion_sensor_center_anchor_offset;
@@ -293,16 +298,18 @@ namespace Balltze::Engine::TagDefinitions {
 		HUDInterfaceAnchor auxiliary_overlay_anchor;
 		PADDING(2);
 		PADDING(32);
-		TagReflexive<UnitHUDInterfaceAuxiliaryOverlay> overlays;
+		TagBlock<UnitHUDInterfaceAuxiliaryOverlay> overlays;
 		PADDING(16);
-		TagReflexive<UnitHUDInterfaceHUDSound> sounds;
-		TagReflexive<UnitHUDInterfaceAuxiliaryPanel> meters;
+		TagBlock<UnitHUDInterfaceHUDSound> sounds;
+		TagBlock<UnitHUDInterfaceAuxiliaryPanel> meters;
 		PADDING(356);
 		PADDING(48);
 	};
 	static_assert(sizeof(UnitHudInterface) == 1388);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

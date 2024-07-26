@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__WEAPON_HUD_INTERFACE_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "hud_interface_types.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -147,7 +152,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(4);
 		Index sequence_index;
 		PADDING(2);
-		TagReflexive<HUDInterfaceMultitextureOverlay> multitexture_overlays;
+		TagBlock<HUDInterfaceMultitextureOverlay> multitexture_overlays;
 		PADDING(4);
 		PADDING(40);
 	};
@@ -247,7 +252,7 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(2);
 		PADDING(28);
 		TagDependency crosshair_bitmap;
-		TagReflexive<WeaponHUDInterfaceCrosshairOverlay> crosshair_overlays;
+		TagBlock<WeaponHUDInterfaceCrosshairOverlay> crosshair_overlays;
 		PADDING(40);
 	};
 	static_assert(sizeof(WeaponHUDInterfaceCrosshair) == 104);
@@ -285,7 +290,7 @@ namespace Balltze::Engine::TagDefinitions {
 		HUDInterfaceChildAnchor anchor;
 		PADDING(28);
 		TagDependency overlay_bitmap;
-		TagReflexive<WeaponHUDInterfaceOverlay> overlays;
+		TagBlock<WeaponHUDInterfaceOverlay> overlays;
 		PADDING(40);
 	};
 	static_assert(sizeof(WeaponHUDInterfaceOverlayElement) == 104);
@@ -327,14 +332,14 @@ namespace Balltze::Engine::TagDefinitions {
 		HUDInterfaceAnchor anchor;
 		PADDING(2);
 		PADDING(32);
-		TagReflexive<WeaponHUDInterfaceStaticElement> static_elements;
-		TagReflexive<WeaponHUDInterfaceMeter> meter_elements;
-		TagReflexive<WeaponHUDInterfaceNumber> number_elements;
-		TagReflexive<WeaponHUDInterfaceCrosshair> crosshairs;
-		TagReflexive<WeaponHUDInterfaceOverlayElement> overlay_elements;
+		TagBlock<WeaponHUDInterfaceStaticElement> static_elements;
+		TagBlock<WeaponHUDInterfaceMeter> meter_elements;
+		TagBlock<WeaponHUDInterfaceNumber> number_elements;
+		TagBlock<WeaponHUDInterfaceCrosshair> crosshairs;
+		TagBlock<WeaponHUDInterfaceOverlayElement> overlay_elements;
 		WeaponHUDInterfaceCrosshairTypeFlags crosshair_types;
 		PADDING(12);
-		TagReflexive<WeaponHUDInterfaceScreenEffect> screen_effect;
+		TagBlock<WeaponHUDInterfaceScreenEffect> screen_effect;
 		PADDING(132);
 		Index sequence_index;
 		std::int16_t width_offset;
@@ -348,6 +353,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(WeaponHudInterface) == 380);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

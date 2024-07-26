@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum DetailObjectCollectionType : std::uint16_t {
 		DETAIL_OBJECT_COLLECTION_TYPE_SCREEN_FACING = 0,
@@ -48,12 +52,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> global_z_offset;
 		PADDING(44);
 		TagDependency sprite_plate;
-		TagReflexive<DetailObjectCollectionObjectType> types;
+		TagBlock<DetailObjectCollectionObjectType> types;
 		PADDING(48);
 	};
 	static_assert(sizeof(DetailObjectCollection) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

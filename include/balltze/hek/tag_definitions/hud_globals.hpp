@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "hud_interface_types.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -57,7 +61,7 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct HUDGlobalsAnniversaryRemap {
 		TagDependency source_bitmap;
-		TagReflexive<HUDGlobalsAnniversaryRemapTarget> targets;
+		TagBlock<HUDGlobalsAnniversaryRemapTarget> targets;
 	};
 	static_assert(sizeof(HUDGlobalsAnniversaryRemap) == 28);
 
@@ -97,7 +101,7 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency item_message_text;
 		TagDependency icon_bitmap;
 		TagDependency alternate_icon_text;
-		TagReflexive<HUDGlobalsButtonIcon> button_icons;
+		TagBlock<HUDGlobalsButtonIcon> button_icons;
 		ColorARGBInt hud_help_default_color;
 		ColorARGBInt hud_help_flashing_color;
 		Memory::BigEndian<float> hud_help_flash_period;
@@ -124,7 +128,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> right_offset;
 		PADDING(32);
 		TagDependency arrow_bitmap;
-		TagReflexive<HUDGlobalsWaypointArrow> waypoint_arrows;
+		TagBlock<HUDGlobalsWaypointArrow> waypoint_arrows;
 		PADDING(80);
 		Memory::BigEndian<float> hud_scale_in_multiplayer;
 		PADDING(256);
@@ -169,12 +173,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Index checkpoint_begin_text;
 		Index checkpoint_end_text;
 		TagDependency checkpoint_sound;
-		TagReflexive<HUDGlobalsAnniversaryRemap> anniversary_hud_remaps;
+		TagBlock<HUDGlobalsAnniversaryRemap> anniversary_hud_remaps;
 		PADDING(84);
 	};
 	static_assert(sizeof(HudGlobals) == 1104);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

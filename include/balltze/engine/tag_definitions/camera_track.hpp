@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__CAMERA_TRACK_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct CameraTrackControlPoint {
@@ -19,12 +24,14 @@ namespace Balltze::Engine::TagDefinitions {
 
 	struct CameraTrack {
 		IsUnusedFlag flags;
-		TagReflexive<CameraTrackControlPoint> control_points;
+		TagBlock<CameraTrackControlPoint> control_points;
 		PADDING(32);
 	};
 	static_assert(sizeof(CameraTrack) == 48);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

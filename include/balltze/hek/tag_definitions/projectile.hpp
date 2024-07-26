@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "object.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -115,11 +119,13 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency attached_detonation_damage;
 		TagDependency impact_damage;
 		PADDING(12);
-		TagReflexive<ProjectileMaterialResponse> projectile_material_response;
+		TagBlock<ProjectileMaterialResponse> projectile_material_response;
 	};
 	static_assert(sizeof(Projectile) == 588);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

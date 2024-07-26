@@ -7,24 +7,45 @@
 #include "../event.hpp"
 
 namespace Balltze::Event {
-    struct GameInputArguments {
-        Engine::InputDevice device;
+    struct GameInputEventContext {
+        const Engine::InputDevice device;
         union {
             std::size_t key_code;
             Engine::GamepadButton gamepad_button;
         } button;
-        bool mapped;
+        const bool mapped;
+
+        GameInputEventContext(Engine::InputDevice device, std::size_t key_code, bool mapped) : device(device), mapped(mapped) {
+            button.key_code = key_code;
+        }
     };
 
     class GameInputEvent : public EventData<GameInputEvent> {
     public:
-        GameInputArguments args;
+        GameInputEventContext context;
 
         bool cancellable() const {
             return true;
         }
 
-        GameInputEvent(EventTime time, GameInputArguments args) : EventData(time), args(args) {}
+        GameInputEvent(EventTime time, GameInputEventContext context) : EventData(time), context(context) {}
+    };
+    
+    struct KeyboardInputEventContext {
+        const Engine::InputGlobals::BufferedKey key;
+
+        KeyboardInputEventContext(Engine::InputGlobals::BufferedKey key) : key(key) { }
+    };
+
+    class KeyboardInputEvent : public EventData<KeyboardInputEvent> {
+    public:
+        KeyboardInputEventContext context;
+
+        bool cancellable() const {
+            return false;
+        }
+
+        KeyboardInputEvent(EventTime time, KeyboardInputEventContext context) : EventData(time), context(context) {}
     };
 }
 

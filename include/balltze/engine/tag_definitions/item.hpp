@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__ITEM_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "object.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -41,6 +46,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(Item) == 776);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

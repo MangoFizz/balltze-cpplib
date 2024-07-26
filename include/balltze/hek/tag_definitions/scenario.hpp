@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "actor.hpp"
 #include "object.hpp"
 
@@ -958,8 +962,8 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(2);
 		Memory::BigEndian<float> respawn_delay[2];
 		PADDING(48);
-		TagReflexive<ScenarioMovePosition> move_positions;
-		TagReflexive<ScenarioActorStartingLocation> starting_locations;
+		TagBlock<ScenarioMovePosition> move_positions;
+		TagBlock<ScenarioActorStartingLocation> starting_locations;
 		PADDING(12);
 	};
 	static_assert(sizeof(ScenarioSquad) == 232);
@@ -1000,10 +1004,10 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> respawn_delay[2];
 		PADDING(74);
 		Index precomputed_bsp_index;
-		TagReflexive<ScenarioSquad> squads;
-		TagReflexive<ScenarioPlatoon> platoons;
-		TagReflexive<ScenarioFiringPosition> firing_positions;
-		TagReflexive<ScenarioPlayerStartingLocation> player_starting_locations;
+		TagBlock<ScenarioSquad> squads;
+		TagBlock<ScenarioPlatoon> platoons;
+		TagBlock<ScenarioFiringPosition> firing_positions;
+		TagBlock<ScenarioPlayerStartingLocation> player_starting_locations;
 	};
 	static_assert(sizeof(ScenarioEncounter) == 176);
 
@@ -1036,8 +1040,8 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(8);
 		Index manual_bsp_index;
 		Index precomputed_bsp_index;
-		TagReflexive<ScenarioCommand> commands;
-		TagReflexive<ScenarioCommandPoint> points;
+		TagBlock<ScenarioCommand> commands;
+		TagBlock<ScenarioCommandPoint> points;
 		PADDING(24);
 	};
 	static_assert(sizeof(ScenarioCommandList) == 96);
@@ -1100,8 +1104,8 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> trigger_distance;
 		Memory::BigEndian<float> run_to_player_dist;
 		PADDING(36);
-		TagReflexive<ScenarioAIConversationParticipant> participants;
-		TagReflexive<ScenarioAIConversationLine> lines;
+		TagBlock<ScenarioAIConversationParticipant> participants;
+		TagBlock<ScenarioAIConversationLine> lines;
 		PADDING(12);
 	};
 	static_assert(sizeof(ScenarioAIConversation) == 116);
@@ -1119,7 +1123,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<ScenarioScriptValueType> return_type;
 		Memory::BigEndian<std::uint32_t> root_expression_index;
 		PADDING(40);
-		TagReflexive<ScenarioScriptParameter> parameters;
+		TagBlock<ScenarioScriptParameter> parameters;
 	};
 	static_assert(sizeof(ScenarioScript) == 92);
 
@@ -1223,78 +1227,80 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency dont_use;
 		TagDependency wont_use;
 		TagDependency cant_use;
-		TagReflexive<ScenarioSky> skies;
+		TagBlock<ScenarioSky> skies;
 		Memory::BigEndian<ScenarioType> type;
 		Memory::BigEndian<ScenarioFlags> flags;
-		TagReflexive<ScenarioChildScenario> child_scenarios;
+		TagBlock<ScenarioChildScenario> child_scenarios;
 		Memory::BigEndian<float> local_north;
 		PADDING(20);
 		PADDING(136);
-		TagReflexive<PredictedResource> predicted_resources;
-		TagReflexive<ScenarioFunction> functions;
+		TagBlock<PredictedResource> predicted_resources;
+		TagBlock<ScenarioFunction> functions;
 		TagDataOffset editor_scenario_data;
-		TagReflexive<ScenarioEditorComment> comments;
-		TagReflexive<ScenarioScavengerHuntObjects> scavenger_hunt_objects;
+		TagBlock<ScenarioEditorComment> comments;
+		TagBlock<ScenarioScavengerHuntObjects> scavenger_hunt_objects;
 		PADDING(212);
-		TagReflexive<ScenarioObjectName> object_names;
-		TagReflexive<ScenarioScenery> scenery;
-		TagReflexive<ScenarioSceneryPalette> scenery_palette;
-		TagReflexive<ScenarioBiped> bipeds;
-		TagReflexive<ScenarioBipedPalette> biped_palette;
-		TagReflexive<ScenarioVehicle> vehicles;
-		TagReflexive<ScenarioVehiclePalette> vehicle_palette;
-		TagReflexive<ScenarioEquipment> equipment;
-		TagReflexive<ScenarioEquipmentPalette> equipment_palette;
-		TagReflexive<ScenarioWeapon> weapons;
-		TagReflexive<ScenarioWeaponPalette> weapon_palette;
-		TagReflexive<ScenarioDeviceGroup> device_groups;
-		TagReflexive<ScenarioMachine> machines;
-		TagReflexive<ScenarioMachinePalette> machine_palette;
-		TagReflexive<ScenarioControl> controls;
-		TagReflexive<ScenarioControlPalette> control_palette;
-		TagReflexive<ScenarioLightFixture> light_fixtures;
-		TagReflexive<ScenarioLightFixturePalette> light_fixture_palette;
-		TagReflexive<ScenarioSoundScenery> sound_scenery;
-		TagReflexive<ScenarioSoundSceneryPalette> sound_scenery_palette;
+		TagBlock<ScenarioObjectName> object_names;
+		TagBlock<ScenarioScenery> scenery;
+		TagBlock<ScenarioSceneryPalette> scenery_palette;
+		TagBlock<ScenarioBiped> bipeds;
+		TagBlock<ScenarioBipedPalette> biped_palette;
+		TagBlock<ScenarioVehicle> vehicles;
+		TagBlock<ScenarioVehiclePalette> vehicle_palette;
+		TagBlock<ScenarioEquipment> equipment;
+		TagBlock<ScenarioEquipmentPalette> equipment_palette;
+		TagBlock<ScenarioWeapon> weapons;
+		TagBlock<ScenarioWeaponPalette> weapon_palette;
+		TagBlock<ScenarioDeviceGroup> device_groups;
+		TagBlock<ScenarioMachine> machines;
+		TagBlock<ScenarioMachinePalette> machine_palette;
+		TagBlock<ScenarioControl> controls;
+		TagBlock<ScenarioControlPalette> control_palette;
+		TagBlock<ScenarioLightFixture> light_fixtures;
+		TagBlock<ScenarioLightFixturePalette> light_fixture_palette;
+		TagBlock<ScenarioSoundScenery> sound_scenery;
+		TagBlock<ScenarioSoundSceneryPalette> sound_scenery_palette;
 		PADDING(84);
-		TagReflexive<ScenarioPlayerStartingProfile> player_starting_profile;
-		TagReflexive<ScenarioPlayerStartingLocation> player_starting_locations;
-		TagReflexive<ScenarioTriggerVolume> trigger_volumes;
-		TagReflexive<ScenarioRecordedAnimation> recorded_animations;
-		TagReflexive<ScenarioNetgameFlags> netgame_flags;
-		TagReflexive<ScenarioNetgameEquipment> netgame_equipment;
-		TagReflexive<ScenarioStartingEquipment> starting_equipment;
-		TagReflexive<ScenarioBSPSwitchTriggerVolume> bsp_switch_trigger_volumes;
-		TagReflexive<ScenarioDecal> decals;
-		TagReflexive<ScenarioDecalPalette> decal_palette;
-		TagReflexive<ScenarioDetailObjectCollectionPalette> detail_object_collection_palette;
+		TagBlock<ScenarioPlayerStartingProfile> player_starting_profile;
+		TagBlock<ScenarioPlayerStartingLocation> player_starting_locations;
+		TagBlock<ScenarioTriggerVolume> trigger_volumes;
+		TagBlock<ScenarioRecordedAnimation> recorded_animations;
+		TagBlock<ScenarioNetgameFlags> netgame_flags;
+		TagBlock<ScenarioNetgameEquipment> netgame_equipment;
+		TagBlock<ScenarioStartingEquipment> starting_equipment;
+		TagBlock<ScenarioBSPSwitchTriggerVolume> bsp_switch_trigger_volumes;
+		TagBlock<ScenarioDecal> decals;
+		TagBlock<ScenarioDecalPalette> decal_palette;
+		TagBlock<ScenarioDetailObjectCollectionPalette> detail_object_collection_palette;
 		PADDING(84);
-		TagReflexive<ScenarioActorPalette> actor_palette;
-		TagReflexive<ScenarioEncounter> encounters;
-		TagReflexive<ScenarioCommandList> command_lists;
-		TagReflexive<ScenarioAIAnimationReference> ai_animation_references;
-		TagReflexive<ScenarioAIScriptReference> ai_script_references;
-		TagReflexive<ScenarioAIRecordingReference> ai_recording_references;
-		TagReflexive<ScenarioAIConversation> ai_conversations;
+		TagBlock<ScenarioActorPalette> actor_palette;
+		TagBlock<ScenarioEncounter> encounters;
+		TagBlock<ScenarioCommandList> command_lists;
+		TagBlock<ScenarioAIAnimationReference> ai_animation_references;
+		TagBlock<ScenarioAIScriptReference> ai_script_references;
+		TagBlock<ScenarioAIRecordingReference> ai_recording_references;
+		TagBlock<ScenarioAIConversation> ai_conversations;
 		TagDataOffset script_syntax_data;
 		TagDataOffset script_string_data;
-		TagReflexive<ScenarioScript> scripts;
-		TagReflexive<ScenarioGlobal> globals;
-		TagReflexive<ScenarioReference> references;
-		TagReflexive<ScenarioSourceFile> source_files;
+		TagBlock<ScenarioScript> scripts;
+		TagBlock<ScenarioGlobal> globals;
+		TagBlock<ScenarioReference> references;
+		TagBlock<ScenarioSourceFile> source_files;
 		PADDING(24);
-		TagReflexive<ScenarioCutsceneFlag> cutscene_flags;
-		TagReflexive<ScenarioCutsceneCameraPoint> cutscene_camera_points;
-		TagReflexive<ScenarioCutsceneTitle> cutscene_titles;
+		TagBlock<ScenarioCutsceneFlag> cutscene_flags;
+		TagBlock<ScenarioCutsceneCameraPoint> cutscene_camera_points;
+		TagBlock<ScenarioCutsceneTitle> cutscene_titles;
 		PADDING(108);
 		TagDependency custom_object_names;
 		TagDependency ingame_help_text;
 		TagDependency hud_messages;
-		TagReflexive<ScenarioBSP> structure_bsps;
+		TagBlock<ScenarioBSP> structure_bsps;
 	};
 	static_assert(sizeof(Scenario) == 1456);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

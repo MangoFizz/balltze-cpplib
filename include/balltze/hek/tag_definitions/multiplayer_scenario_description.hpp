@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct MultiplayerScenarioDescriptionScenarioDescription {
 		TagDependency descriptive_bitmap;
@@ -19,11 +23,13 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(MultiplayerScenarioDescriptionScenarioDescription) == 68);
 
 	struct MultiplayerScenarioDescription {
-		TagReflexive<MultiplayerScenarioDescriptionScenarioDescription> multiplayer_scenarios;
+		TagBlock<MultiplayerScenarioDescriptionScenarioDescription> multiplayer_scenarios;
 	};
 	static_assert(sizeof(MultiplayerScenarioDescription) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

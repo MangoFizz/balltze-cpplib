@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct ModelRegionPermutationFlags {
 		std::uint32_t cannot_be_chosen_randomly : 1;
@@ -43,7 +47,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::int16_t> magic_identifier;
 		PADDING(2);
 		PADDING(16);
-		TagReflexive<ModelMarkerInstance> instances;
+		TagBlock<ModelMarkerInstance> instances;
 	};
 	static_assert(sizeof(ModelMarker) == 64);
 
@@ -85,14 +89,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Index high;
 		Index super_high;
 		PADDING(2);
-		TagReflexive<ModelRegionPermutationMarker> markers;
+		TagBlock<ModelRegionPermutationMarker> markers;
 	};
 	static_assert(sizeof(ModelRegionPermutation) == 88);
 
 	struct ModelRegion {
 		TagString name;
 		PADDING(32);
-		TagReflexive<ModelRegionPermutation> permutations;
+		TagBlock<ModelRegionPermutation> permutations;
 	};
 	static_assert(sizeof(ModelRegion) == 76);
 
@@ -139,9 +143,9 @@ namespace Balltze::HEK::TagDefinitions {
 		Fraction centroid_primary_weight;
 		Fraction centroid_secondary_weight;
 		Point3D centroid;
-		TagReflexive<ModelVertexUncompressed> uncompressed_vertices;
-		TagReflexive<ModelVertexCompressed> compressed_vertices;
-		TagReflexive<ModelTriangle> triangles;
+		TagBlock<ModelVertexUncompressed> uncompressed_vertices;
+		TagBlock<ModelVertexCompressed> compressed_vertices;
+		TagBlock<ModelTriangle> triangles;
 		Memory::BigEndian<std::uint32_t> do_not_crash_the_game;
 		Memory::BigEndian<std::uint32_t> triangle_count;
 		Memory::BigEndian<std::uint32_t> triangle_offset;
@@ -158,7 +162,7 @@ namespace Balltze::HEK::TagDefinitions {
 	struct ModelGeometry {
 		Memory::BigEndian<IsUnusedFlag> flags;
 		PADDING(32);
-		TagReflexive<ModelGeometryPart> parts;
+		TagBlock<ModelGeometryPart> parts;
 	};
 	static_assert(sizeof(ModelGeometry) == 48);
 
@@ -188,15 +192,17 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> base_map_u_scale;
 		Memory::BigEndian<float> base_map_v_scale;
 		PADDING(116);
-		TagReflexive<ModelMarker> markers;
-		TagReflexive<ModelNode> nodes;
-		TagReflexive<ModelRegion> regions;
-		TagReflexive<ModelGeometry> geometries;
-		TagReflexive<ModelShaderReference> shaders;
+		TagBlock<ModelMarker> markers;
+		TagBlock<ModelNode> nodes;
+		TagBlock<ModelRegion> regions;
+		TagBlock<ModelGeometry> geometries;
+		TagBlock<ModelShaderReference> shaders;
 	};
 	static_assert(sizeof(Model) == 232);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

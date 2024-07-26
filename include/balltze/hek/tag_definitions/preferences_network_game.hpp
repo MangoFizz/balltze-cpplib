@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct PreferencesNetworkGame {
 		TagString name;
@@ -25,6 +29,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(PreferencesNetworkGame) == 896);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

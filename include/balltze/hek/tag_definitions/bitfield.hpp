@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct IsUnusedFlag {
 		std::uint32_t unused : 1;
@@ -27,6 +31,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ColorInterpolationFlags) == sizeof(std::uint32_t));
 
 }
+
+#pragma pack(pop)
 
 #endif
 

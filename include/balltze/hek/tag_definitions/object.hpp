@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum PredictedResourceType : std::uint16_t {
 		PREDICTED_RESOURCE_TYPE_BITMAP = 0,
@@ -151,7 +155,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<ColorInterpolationFlags> flags;
 		ColorRGB color_lower_bound;
 		ColorRGB color_upper_bound;
-		TagReflexive<ObjectChangeColorsPermutation> permutations;
+		TagBlock<ObjectChangeColorsPermutation> permutations;
 	};
 	static_assert(sizeof(ObjectChangeColors) == 44);
 
@@ -179,11 +183,11 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(44);
 		Memory::BigEndian<std::int16_t> hud_text_message_index;
 		Memory::BigEndian<std::int16_t> forced_shader_permutation_index;
-		TagReflexive<ObjectAttachment> attachments;
-		TagReflexive<ObjectWidget> widgets;
-		TagReflexive<ObjectFunction> functions;
-		TagReflexive<ObjectChangeColors> change_colors;
-		TagReflexive<PredictedResource> predicted_resources;
+		TagBlock<ObjectAttachment> attachments;
+		TagBlock<ObjectWidget> widgets;
+		TagBlock<ObjectFunction> functions;
+		TagBlock<ObjectChangeColors> change_colors;
+		TagBlock<PredictedResource> predicted_resources;
 	};
 	static_assert(sizeof(Object) == 380);
 
@@ -195,6 +199,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(BasicObject) == 508);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

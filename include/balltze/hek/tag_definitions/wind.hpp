@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct Wind {
 		Memory::BigEndian<float> velocity[2];
@@ -21,6 +25,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Wind) == 64);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

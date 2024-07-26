@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct SkyLightFlags {
 		std::uint32_t affects_exteriors : 1;
@@ -64,13 +68,15 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> indoor_fog_opaque_distance;
 		TagDependency indoor_fog_screen;
 		PADDING(4);
-		TagReflexive<SkyFunction> shader_functions;
-		TagReflexive<SkyAnimation> animations;
-		TagReflexive<SkyLight> lights;
+		TagBlock<SkyFunction> shader_functions;
+		TagBlock<SkyAnimation> animations;
+		TagBlock<SkyLight> lights;
 	};
 	static_assert(sizeof(Sky) == 208);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

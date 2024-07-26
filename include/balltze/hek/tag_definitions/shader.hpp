@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum ShaderDetailLevel : std::uint16_t {
 		SHADER_DETAIL_LEVEL_HIGH = 0,
@@ -92,6 +96,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Shader) == 40);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

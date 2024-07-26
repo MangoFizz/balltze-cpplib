@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SHADER_TRANSPARENT_CHICAGO_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "shader_transparent_generic.hpp"
 #include "shader.hpp"
 
@@ -71,14 +76,16 @@ namespace Balltze::Engine::TagDefinitions {
 		PADDING(2);
 		float lens_flare_spacing;
 		TagDependency lens_flare;
-		TagReflexive<ShaderTransparentExtraLayer> extra_layers;
-		TagReflexive<ShaderTransparentChicagoMap> maps;
+		TagBlock<ShaderTransparentExtraLayer> extra_layers;
+		TagBlock<ShaderTransparentChicagoMap> maps;
 		ShaderTransparentChicagoExtraFlags extra_flags;
 		PADDING(8);
 	};
 	static_assert(sizeof(ShaderTransparentChicago) == 108);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

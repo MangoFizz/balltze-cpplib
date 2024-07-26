@@ -9,7 +9,7 @@
 #include "../event.hpp"
 
 namespace Balltze::Event {
-    enum struct HudHoldForActionMessageSlice {
+    enum HudHoldForActionMessageSlice {
         MESSAGE,
         BUTTON_NAME_LEFT_QUOTE,
         BUTTON_NAME_RIGHT_QUOTE,
@@ -41,23 +41,25 @@ namespace Balltze::Event {
         PADDING(2);
     };
 
-    struct HudHoldForActionMessageArguments {
-        HudHoldForActionMessageSlice slice;
+    struct HudHoldForActionMessageContext {
+        const HudHoldForActionMessageSlice slice;
         Engine::Point2DInt offset;
-        Engine::ColorARGBInt color;
+        const Engine::ColorARGBInt color;
         std::wstring text;
-        std::optional<HudHoldToActionMessageButton> button;
+        const std::optional<HudHoldToActionMessageButton> button;
+
+        HudHoldForActionMessageContext(HudHoldForActionMessageSlice slice, Engine::Point2DInt offset, Engine::ColorARGBInt color, std::wstring text, std::optional<HudHoldToActionMessageButton> button) : slice(slice), offset(offset), color(color), text(text), button(button) {}
     };
 
     class HudHoldForActionMessageEvent : public EventData<HudHoldForActionMessageEvent> {
     public:
-        HudHoldForActionMessageArguments args;
+        HudHoldForActionMessageContext context;
 
         bool cancellable() const {
             return true;
         }
 
-        HudHoldForActionMessageEvent(EventTime time, HudHoldForActionMessageArguments args) : EventData(time), args(args) {}
+        HudHoldForActionMessageEvent(EventTime time, HudHoldForActionMessageContext context) : EventData(time), context(context) {}
     };
 }
 

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum MultiplayerInformationSound : std::uint16_t {
 		MULTIPLAYER_INFORMATION_SOUND_PLAY_BALL = 0,
@@ -98,7 +102,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::int16_t> minimum_weapon_swap_ticks;
 		Memory::BigEndian<std::int16_t> minimum_autolevelling_ticks;
 		Angle minimum_angle_for_vehicle_flipping;
-		TagReflexive<GlobalsLookFunction> look_function;
+		TagBlock<GlobalsLookFunction> look_function;
 	};
 	static_assert(sizeof(GlobalsPlayerControl) == 128);
 
@@ -300,11 +304,11 @@ namespace Balltze::HEK::TagDefinitions {
 	struct GlobalsMultiplayerInformation {
 		TagDependency flag;
 		TagDependency unit;
-		TagReflexive<GlobalsVehicle> vehicles;
+		TagBlock<GlobalsVehicle> vehicles;
 		TagDependency hill_shader;
 		TagDependency flag_shader;
 		TagDependency ball;
-		TagReflexive<GlobalsSound> sounds;
+		TagBlock<GlobalsSound> sounds;
 		PADDING(56);
 	};
 	static_assert(sizeof(GlobalsMultiplayerInformation) == 160);
@@ -403,7 +407,7 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency effect;
 		TagDependency sound;
 		PADDING(24);
-		TagReflexive<GlobalsBreakableSurfaceParticleEffect> particle_effects;
+		TagBlock<GlobalsBreakableSurfaceParticleEffect> particle_effects;
 		PADDING(60);
 		TagDependency melee_hit_sound;
 	};
@@ -423,25 +427,27 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct Globals {
 		PADDING(248);
-		TagReflexive<GlobalsSound> sounds;
-		TagReflexive<GlobalsCamera> camera;
-		TagReflexive<GlobalsPlayerControl> player_control;
-		TagReflexive<GlobalsDifficulty> difficulty;
-		TagReflexive<GlobalsGrenade> grenades;
-		TagReflexive<GlobalsRasterizerData> rasterizer_data;
-		TagReflexive<GlobalsInterfaceBitmaps> interface_bitmaps;
-		TagReflexive<GlobalsWeapon> weapon_list;
-		TagReflexive<GlobalsCheatPowerup> cheat_powerups;
-		TagReflexive<GlobalsMultiplayerInformation> multiplayer_information;
-		TagReflexive<GlobalsPlayerInformation> player_information;
-		TagReflexive<GlobalsFirstPersonInterface> first_person_interface;
-		TagReflexive<GlobalsFallingDamage> falling_damage;
-		TagReflexive<GlobalsMaterial> materials;
-		TagReflexive<GlobalsPlaylistMember> playlist_members;
+		TagBlock<GlobalsSound> sounds;
+		TagBlock<GlobalsCamera> camera;
+		TagBlock<GlobalsPlayerControl> player_control;
+		TagBlock<GlobalsDifficulty> difficulty;
+		TagBlock<GlobalsGrenade> grenades;
+		TagBlock<GlobalsRasterizerData> rasterizer_data;
+		TagBlock<GlobalsInterfaceBitmaps> interface_bitmaps;
+		TagBlock<GlobalsWeapon> weapon_list;
+		TagBlock<GlobalsCheatPowerup> cheat_powerups;
+		TagBlock<GlobalsMultiplayerInformation> multiplayer_information;
+		TagBlock<GlobalsPlayerInformation> player_information;
+		TagBlock<GlobalsFirstPersonInterface> first_person_interface;
+		TagBlock<GlobalsFallingDamage> falling_damage;
+		TagBlock<GlobalsMaterial> materials;
+		TagBlock<GlobalsPlaylistMember> playlist_members;
 	};
 	static_assert(sizeof(Globals) == 428);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum InputDeviceDefaultsDeviceType : std::uint16_t {
 		INPUT_DEVICE_DEFAULTS_DEVICE_TYPE_MOUSE_AND_KEYBOARD = 0,
@@ -30,6 +34,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(InputDeviceDefaults) == 44);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

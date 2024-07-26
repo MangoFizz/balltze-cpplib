@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -61,13 +65,15 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<FunctionOut> brightness_scale_source;
 		TagDependency bitmap;
 		PADDING(84);
-		TagReflexive<LightningMarker> markers;
-		TagReflexive<LightningShader> shader;
+		TagBlock<LightningMarker> markers;
+		TagBlock<LightningShader> shader;
 		PADDING(88);
 	};
 	static_assert(sizeof(Lightning) == 264);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

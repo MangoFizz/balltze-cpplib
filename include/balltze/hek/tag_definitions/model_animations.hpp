@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum AnimationFunction : std::uint16_t {
 		ANIMATION_FUNCTION_A_OUT = 0,
@@ -124,7 +128,7 @@ namespace Balltze::HEK::TagDefinitions {
 	struct ModelAnimationsAnimationGraphWeaponType {
 		TagString label;
 		PADDING(16);
-		TagReflexive<ModelAnimationsAnimationWeaponTypeAnimation> animations;
+		TagBlock<ModelAnimationsAnimationWeaponTypeAnimation> animations;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphWeaponType) == 60);
 
@@ -141,9 +145,9 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::uint16_t> down_pitch_frame_count;
 		Memory::BigEndian<std::uint16_t> up_pitch_frame_count;
 		PADDING(32);
-		TagReflexive<ModelAnimationsAnimationWeaponClassAnimation> animations;
-		TagReflexive<ModelAnimationsAnimationGraphUnitSeatikPoint> ik_point;
-		TagReflexive<ModelAnimationsAnimationGraphWeaponType> weapon_types;
+		TagBlock<ModelAnimationsAnimationWeaponClassAnimation> animations;
+		TagBlock<ModelAnimationsAnimationGraphUnitSeatikPoint> ik_point;
+		TagBlock<ModelAnimationsAnimationGraphWeaponType> weapon_types;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphWeapon) == 188);
 
@@ -158,9 +162,9 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::uint16_t> down_pitch_frame_count;
 		Memory::BigEndian<std::uint16_t> up_pitch_frame_count;
 		PADDING(8);
-		TagReflexive<ModelAnimationsAnimationWeaponClassAnimation> animations;
-		TagReflexive<ModelAnimationsAnimationGraphUnitSeatikPoint> ik_points;
-		TagReflexive<ModelAnimationsAnimationGraphWeapon> weapons;
+		TagBlock<ModelAnimationsAnimationWeaponClassAnimation> animations;
+		TagBlock<ModelAnimationsAnimationGraphUnitSeatikPoint> ik_points;
+		TagBlock<ModelAnimationsAnimationGraphWeapon> weapons;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphUnitSeat) == 100);
 
@@ -171,7 +175,7 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct ModelAnimationsAnimationGraphWeaponAnimations {
 		PADDING(16);
-		TagReflexive<ModelAnimationsWeaponAnimation> animations;
+		TagBlock<ModelAnimationsWeaponAnimation> animations;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphWeaponAnimations) == 28);
 
@@ -199,8 +203,8 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<std::uint16_t> down_pitch_frame_count;
 		Memory::BigEndian<std::uint16_t> up_pitch_frame_count;
 		PADDING(68);
-		TagReflexive<ModelAnimationsVehicleAnimation> animations;
-		TagReflexive<ModelAnimationSuspensionAnimation> suspension_animations;
+		TagBlock<ModelAnimationsVehicleAnimation> animations;
+		TagBlock<ModelAnimationSuspensionAnimation> suspension_animations;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphVehicleAnimations) == 116);
 
@@ -211,7 +215,7 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct ModelAnimationsDeviceAnimations {
 		PADDING(84);
-		TagReflexive<ModelAnimationsDeviceAnimation> animations;
+		TagBlock<ModelAnimationsDeviceAnimation> animations;
 	};
 	static_assert(sizeof(ModelAnimationsDeviceAnimations) == 96);
 
@@ -227,7 +231,7 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct ModelAnimationsAnimationGraphFirstPersonWeaponAnimations {
 		PADDING(16);
-		TagReflexive<ModelAnimationsFirstPersonWeapon> animations;
+		TagBlock<ModelAnimationsFirstPersonWeapon> animations;
 	};
 	static_assert(sizeof(ModelAnimationsAnimationGraphFirstPersonWeaponAnimations) == 28);
 
@@ -284,23 +288,25 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ModelAnimationsAnimation) == 180);
 
 	struct ModelAnimations {
-		TagReflexive<ModelAnimationsAnimationGraphObjectOverlay> objects;
-		TagReflexive<ModelAnimationsAnimationGraphUnitSeat> units;
-		TagReflexive<ModelAnimationsAnimationGraphWeaponAnimations> weapons;
-		TagReflexive<ModelAnimationsAnimationGraphVehicleAnimations> vehicles;
-		TagReflexive<ModelAnimationsDeviceAnimations> devices;
-		TagReflexive<ModelAnimationsUnitDamageAnimations> unit_damage;
-		TagReflexive<ModelAnimationsAnimationGraphFirstPersonWeaponAnimations> first_person_weapons;
-		TagReflexive<ModelAnimationsAnimationGraphSoundReference> sound_references;
+		TagBlock<ModelAnimationsAnimationGraphObjectOverlay> objects;
+		TagBlock<ModelAnimationsAnimationGraphUnitSeat> units;
+		TagBlock<ModelAnimationsAnimationGraphWeaponAnimations> weapons;
+		TagBlock<ModelAnimationsAnimationGraphVehicleAnimations> vehicles;
+		TagBlock<ModelAnimationsDeviceAnimations> devices;
+		TagBlock<ModelAnimationsUnitDamageAnimations> unit_damage;
+		TagBlock<ModelAnimationsAnimationGraphFirstPersonWeaponAnimations> first_person_weapons;
+		TagBlock<ModelAnimationsAnimationGraphSoundReference> sound_references;
 		Memory::BigEndian<float> limp_body_node_radius;
 		Memory::BigEndian<ModelAnimationsFlags> flags;
 		PADDING(2);
-		TagReflexive<ModelAnimationsAnimationGraphNode> nodes;
-		TagReflexive<ModelAnimationsAnimation> animations;
+		TagBlock<ModelAnimationsAnimationGraphNode> nodes;
+		TagBlock<ModelAnimationsAnimation> animations;
 	};
 	static_assert(sizeof(ModelAnimations) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

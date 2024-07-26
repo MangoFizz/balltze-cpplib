@@ -5,6 +5,8 @@
 
 #include <cstdint>
 #include "../memory.hpp"
+#include "data_types.hpp"
+#include "tag.hpp"
 
 namespace Balltze::Engine {
     enum HscDataType : std::uint16_t {
@@ -77,6 +79,103 @@ namespace Balltze::Engine {
         }
     };
     static_assert(sizeof(HscFunctionEntry) == 0x1C);
+
+    union ScenarioScriptNodeValue {
+        std::int8_t bool_int;
+        std::int16_t short_int;
+        std::int32_t long_int;
+        float real;
+        TagHandle tag_handle;
+
+        ScenarioScriptNodeValue() = default;
+        ScenarioScriptNodeValue(const ScenarioScriptNodeValue &copy) = default;
+
+        ScenarioScriptNodeValue(std::uint8_t v) {
+            this->bool_int = v;
+        }
+
+        ScenarioScriptNodeValue(std::uint16_t v) {
+            this->short_int = v;
+        }
+
+        ScenarioScriptNodeValue(std::uint32_t v) {
+            this->long_int = v;
+        }
+
+        ScenarioScriptNodeValue(float v) {
+            this->real = v;
+        }
+
+        ScenarioScriptNodeValue(TagHandle v) {
+            this->tag_handle = v;
+        }
+
+        void operator=(std::uint8_t v) {
+            this->long_int = 0xFFFFFFFF;
+            this->bool_int = v;
+        }
+
+        void operator=(std::uint16_t v) {
+            this->long_int = 0xFFFFFFFF;
+            this->short_int = v;
+        }
+
+        void operator=(std::uint32_t v) {
+            this->long_int = v;
+        }
+
+        void operator=(float v) {
+            this->real = v;
+        }
+
+        void operator=(TagHandle v) {
+            this->tag_handle = v;
+        }
+        
+        bool operator==(const ScenarioScriptNodeValue &other) const noexcept {
+            return this->long_int == other.long_int;
+        }
+        
+        bool operator!=(const ScenarioScriptNodeValue &other) const noexcept {
+            return this->long_int != other.long_int;
+        }
+    };
+	static_assert(sizeof(ScenarioScriptNodeValue) == 0x4);
+
+    /**
+     * Execute the script
+     * @param script script to execute
+     */
+    void execute_script(const char *script) noexcept;
+
+    /**
+     * Makes the unit enter a vehicle
+     * @param unit_handle       Handle of the unit to enter the vehicle
+     * @param vehicle_handle    Handle of the vehicle to enter
+     * @param seat_label        Label of the seat to enter
+     */
+    void unit_scripting_enter_vehicle(ObjectHandle unit_handle, ObjectHandle vehicle_handle, std::string seat_label);
+
+    /**
+     * Makes the unit enter a vehicle
+     * @param unit_handle       Handle of the unit to enter the vehicle
+     * @param vehicle_handle    Handle of the vehicle to enter
+     * @param seat_index        Index of the seat to enter
+     */
+    void unit_scripting_enter_vehicle(ObjectHandle unit_handle, ObjectHandle vehicle_handle, std::size_t seat_index);
+
+    /**
+     * Makes the unit exit a vehicle
+     * @param unit_handle       Handle of the unit to exit the vehicle
+     */
+    void unit_scripting_exit_vehicle(ObjectHandle unit_handle);
+
+    /**
+     * Gets the numeric countdown timer
+     * @param units     time units
+     * @return          unit value
+     */
+    std::uint16_t get_numeric_countdown_timer(std::uint16_t units);
 }
 
 #endif

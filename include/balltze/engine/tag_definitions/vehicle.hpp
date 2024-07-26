@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__VEHICLE_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "unit.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -134,6 +139,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(Vehicle) == 1008);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct UnicodeStringListString {
 		TagDataOffset string;
@@ -16,11 +20,13 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(UnicodeStringListString) == 20);
 
 	struct UnicodeStringList {
-		TagReflexive<UnicodeStringListString> strings;
+		TagBlock<UnicodeStringListString> strings;
 	};
 	static_assert(sizeof(UnicodeStringList) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

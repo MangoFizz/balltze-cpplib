@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum SoundFormat : std::uint16_t {
 		SOUND_FORMAT_16_BIT_PCM = 0,
@@ -114,7 +118,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> playback_rate;
 		Memory::BigEndian<std::uint32_t> unknown_ffffffff_0;
 		Memory::BigEndian<std::uint32_t> unknown_ffffffff_1;
-		TagReflexive<SoundPermutation> permutations;
+		TagBlock<SoundPermutation> permutations;
 	};
 	static_assert(sizeof(SoundPitchRange) == 72);
 
@@ -149,11 +153,13 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(8);
 		Memory::BigEndian<std::uint32_t> unknown_ffffffff_0;
 		Memory::BigEndian<std::uint32_t> unknown_ffffffff_1;
-		TagReflexive<SoundPitchRange> pitch_ranges;
+		TagBlock<SoundPitchRange> pitch_ranges;
 	};
 	static_assert(sizeof(Sound) == 164);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

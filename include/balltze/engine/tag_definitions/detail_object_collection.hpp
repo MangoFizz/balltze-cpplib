@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__DETAIL_OBJECT_COLLECTION_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum DetailObjectCollectionType : std::uint16_t {
@@ -48,12 +53,14 @@ namespace Balltze::Engine::TagDefinitions {
 		float global_z_offset;
 		PADDING(44);
 		TagDependency sprite_plate;
-		TagReflexive<DetailObjectCollectionObjectType> types;
+		TagBlock<DetailObjectCollectionObjectType> types;
 		PADDING(48);
 	};
 	static_assert(sizeof(DetailObjectCollection) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

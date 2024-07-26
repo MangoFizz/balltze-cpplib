@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__TAG_COLLECTION_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct TagCollectionTag {
@@ -16,11 +21,13 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(TagCollectionTag) == 16);
 
 	struct TagCollection {
-		TagReflexive<TagCollectionTag> tags;
+		TagBlock<TagCollectionTag> tags;
 	};
 	static_assert(sizeof(TagCollection) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -8,8 +8,12 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
-#include "object.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "item.hpp"
+#include "object.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	enum WeaponSecondaryTriggerMode : std::uint16_t {
@@ -142,7 +146,7 @@ namespace Balltze::HEK::TagDefinitions {
 		TagDependency reloading_effect;
 		TagDependency chambering_effect;
 		PADDING(12);
-		TagReflexive<WeaponMagazineObject> magazine_objects;
+		TagBlock<WeaponMagazineObject> magazine_objects;
 	};
 	static_assert(sizeof(WeaponMagazine) == 112);
 
@@ -208,7 +212,7 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> firing_deceleration_rate;
 		Memory::BigEndian<float> error_acceleration_rate;
 		Memory::BigEndian<float> error_deceleration_rate;
-		TagReflexive<WeaponTriggerFiringEffect> firing_effects;
+		TagBlock<WeaponTriggerFiringEffect> firing_effects;
 	};
 	static_assert(sizeof(WeaponTrigger) == 276);
 
@@ -278,13 +282,15 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(12);
 		PADDING(2);
 		Memory::BigEndian<WeaponType> weapon_type;
-		TagReflexive<PredictedResource> more_predicted_resources;
-		TagReflexive<WeaponMagazine> magazines;
-		TagReflexive<WeaponTrigger> triggers;
+		TagBlock<PredictedResource> more_predicted_resources;
+		TagBlock<WeaponMagazine> magazines;
+		TagBlock<WeaponTrigger> triggers;
 	};
 	static_assert(sizeof(Weapon) == 1288);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "shader.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -49,6 +53,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ShaderTransparentPlasma) == 332);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

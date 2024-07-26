@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__CONTINUOUS_DAMAGE_EFFECT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "damage_effect.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -80,6 +85,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ContinuousDamageEffect) == 512);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__HUD_INTERFACE_TYPES_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum HUDInterfaceDestinationType : std::uint16_t {
@@ -156,12 +161,14 @@ namespace Balltze::Engine::TagDefinitions {
 		HUDInterfaceWrapMode tertiary_wrap_mode;
 		PADDING(2);
 		PADDING(184);
-		TagReflexive<HUDInterfaceMultitextureOverlayEffector> effectors;
+		TagBlock<HUDInterfaceMultitextureOverlayEffector> effectors;
 		PADDING(128);
 	};
 	static_assert(sizeof(HUDInterfaceMultitextureOverlay) == 480);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

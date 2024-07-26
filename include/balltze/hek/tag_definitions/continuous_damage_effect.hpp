@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "damage_effect.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -80,6 +84,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(ContinuousDamageEffect) == 512);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

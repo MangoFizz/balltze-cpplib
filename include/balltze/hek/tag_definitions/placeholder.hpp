@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "object.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -16,6 +20,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Placeholder) == 508);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

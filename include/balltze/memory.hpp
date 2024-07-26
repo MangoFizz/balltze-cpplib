@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <cstdint>
 #include <cstddef>
 #include "api.hpp"
 
@@ -23,6 +24,8 @@
 #define BIT_GAP(type, bytes, line) type bitgap_##line : bytes
 #define GET_BIT_GAP(type, bytes, line) BIT_GAP(type, bytes, line)
 #define PADDING_BIT(type, bytes) GET_BIT_GAP(type, bytes, __LINE__)
+
+#define PACKED_ATTR __attribute__((__packed__))
 
 #define MIB_SIZE 1048576
 

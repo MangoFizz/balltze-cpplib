@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct HUDMessageTextElement {
 		Memory::BigEndian<std::int8_t> type;
@@ -28,13 +32,15 @@ namespace Balltze::HEK::TagDefinitions {
 
 	struct HudMessageText {
 		TagDataOffset text_data;
-		TagReflexive<HUDMessageTextElement> message_elements;
-		TagReflexive<HUDMessageTextMessage> messages;
+		TagBlock<HUDMessageTextElement> message_elements;
+		TagBlock<HUDMessageTextMessage> messages;
 		PADDING(84);
 	};
 	static_assert(sizeof(HudMessageText) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

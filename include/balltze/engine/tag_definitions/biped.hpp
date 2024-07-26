@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__BIPED_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "unit.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -99,11 +104,13 @@ namespace Balltze::Engine::TagDefinitions {
 		float sine_uphill_cutoff_angle;
 		Index pelvis_model_node_index;
 		Index head_model_node_index;
-		TagReflexive<BipedContactPoint> contact_point;
+		TagBlock<BipedContactPoint> contact_point;
 	};
 	static_assert(sizeof(Biped) == 1268);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__BITMAP_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum BitmapDataType : std::uint16_t {
@@ -119,12 +124,12 @@ namespace Balltze::Engine::TagDefinitions {
 		Index first_bitmap_index;
 		std::uint16_t bitmap_count;
 		PADDING(16);
-		TagReflexive<BitmapGroupSprite> sprites;
+		TagBlock<BitmapGroupSprite> sprites;
 	};
 	static_assert(sizeof(BitmapGroupSequence) == 64);
 
 	struct BitmapData {
-		TagFourCC bitmap_class;
+		TagClassInt bitmap_class;
 		std::uint16_t width;
 		std::uint16_t height;
 		std::uint16_t depth;
@@ -163,12 +168,14 @@ namespace Balltze::Engine::TagDefinitions {
 		BitmapSpriteUsage sprite_usage;
 		std::uint16_t sprite_spacing;
 		PADDING(2);
-		TagReflexive<BitmapGroupSequence> bitmap_group_sequence;
-		TagReflexive<BitmapData> bitmap_data;
+		TagBlock<BitmapGroupSequence> bitmap_group_sequence;
+		TagBlock<BitmapData> bitmap_data;
 	};
 	static_assert(sizeof(Bitmap) == 108);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

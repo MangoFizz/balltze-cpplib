@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum FramebufferBlendFunction : std::uint16_t {
 		FRAMEBUFFER_BLEND_FUNCTION_ALPHA_BLEND = 0,
@@ -138,6 +142,8 @@ namespace Balltze::HEK::TagDefinitions {
 	};
 
 }
+
+#pragma pack(pop)
 
 #endif
 

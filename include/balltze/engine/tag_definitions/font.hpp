@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__FONT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct FontCharacterIndex {
@@ -16,7 +21,7 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(FontCharacterIndex) == 2);
 
 	struct FontCharacterTables {
-		TagReflexive<FontCharacterIndex> character_table;
+		TagBlock<FontCharacterIndex> character_table;
 	};
 	static_assert(sizeof(FontCharacterTables) == 12);
 
@@ -40,17 +45,19 @@ namespace Balltze::Engine::TagDefinitions {
 		std::int16_t leading_height;
 		std::int16_t leading_width;
 		PADDING(36);
-		TagReflexive<FontCharacterTables> character_tables;
+		TagBlock<FontCharacterTables> character_tables;
 		TagDependency bold;
 		TagDependency italic;
 		TagDependency condense;
 		TagDependency underline;
-		TagReflexive<FontCharacter> characters;
+		TagBlock<FontCharacter> characters;
 		TagDataOffset pixels;
 	};
 	static_assert(sizeof(Font) == 156);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

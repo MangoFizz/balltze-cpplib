@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum ActorType : std::uint16_t {
 		ACTOR_TYPE_ELITE = 0,
@@ -233,6 +237,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Actor) == 1272);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

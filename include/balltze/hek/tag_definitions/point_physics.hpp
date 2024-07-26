@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct PointPhysicsFlags {
 		std::uint32_t flamethrower_particle_collision : 1;
@@ -36,6 +40,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(PointPhysics) == 64);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

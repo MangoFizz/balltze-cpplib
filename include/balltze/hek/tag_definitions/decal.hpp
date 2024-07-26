@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum DecalType : std::uint16_t {
 		DECAL_TYPE_SCRATCH = 0,
@@ -72,6 +76,8 @@ namespace Balltze::HEK::TagDefinitions {
 	static_assert(sizeof(Decal) == 268);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

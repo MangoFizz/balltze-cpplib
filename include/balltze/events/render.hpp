@@ -8,19 +8,19 @@
 #include "../event.hpp"
 
 namespace Balltze::Event {
-    struct UIRenderEventArgs {
+    struct UIRenderEventContext {
         std::uint32_t unknown_param_1;
     };
 
     class UIRenderEvent : public EventData<UIRenderEvent> {
     public:
-        UIRenderEventArgs args;
+        UIRenderEventContext context;
 
         bool cancellable() const {
             return true;
         }
 
-        UIRenderEvent(EventTime time, UIRenderEventArgs args) : EventData(time) {}
+        UIRenderEvent(EventTime time, UIRenderEventContext context) : EventData(time) {}
     };
 
     class HUDRenderEvent : public EventData<HUDRenderEvent> {
@@ -41,48 +41,36 @@ namespace Balltze::Event {
         PostCarnageReportRenderEvent(EventTime time) : EventData(time) {}
     };
 
-    struct WidgetRenderVertices {
-        struct Vertex {
-            float x, y, z, rhw;
-            float u, v;
-        };
-
-        Vertex top_left;
-        Vertex top_right;
-        Vertex bottom_right;
-        Vertex bottom_left;
-    };
-
-    struct HUDElementBitmapRenderEventArgs {
+    struct HUDElementBitmapRenderEventContext {
         Engine::TagDefinitions::BitmapData *bitmap_data;
-        WidgetRenderVertices *vertices;
+        Engine::ScreenQuad *quad;
     };
 
     class HUDElementBitmapRenderEvent : public EventData<HUDElementBitmapRenderEvent> {
     public:
-        HUDElementBitmapRenderEventArgs args;
+        HUDElementBitmapRenderEventContext context;
 
         bool cancellable() const {
             return true;
         }
 
-        HUDElementBitmapRenderEvent(EventTime time, HUDElementBitmapRenderEventArgs args) : EventData(time), args(args) {}
+        HUDElementBitmapRenderEvent(EventTime time, HUDElementBitmapRenderEventContext context) : EventData(time), context(context) {}
     };
 
-    struct WidgetBackgroundRenderEventArgs {
+    struct UIWidgetBackgroundRenderEventContext {
         Engine::Widget *widget;
-        WidgetRenderVertices *vertices;
+        Engine::ScreenQuad *quad;
     };
 
-    class WidgetBackgroundRenderEvent : public EventData<WidgetBackgroundRenderEvent> {
+    class UIWidgetBackgroundRenderEvent : public EventData<UIWidgetBackgroundRenderEvent> {
     public:
-        WidgetBackgroundRenderEventArgs args;
+        UIWidgetBackgroundRenderEventContext context;
 
         bool cancellable() const {
             return true;
         }
 
-        WidgetBackgroundRenderEvent(EventTime time, WidgetBackgroundRenderEventArgs args) : EventData(time), args(args) {}
+        UIWidgetBackgroundRenderEvent(EventTime time, UIWidgetBackgroundRenderEventContext context) : EventData(time), context(context) {}
     };
 
     class NavPointsRenderEvent : public EventData<NavPointsRenderEvent> {

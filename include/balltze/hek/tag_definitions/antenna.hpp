@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	struct AntennaVertex {
 		Fraction spring_strength_coefficient;
@@ -34,11 +38,13 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> cutoff_pixels;
 		Memory::BigEndian<float> length;
 		PADDING(36);
-		TagReflexive<AntennaVertex> vertices;
+		TagBlock<AntennaVertex> vertices;
 	};
 	static_assert(sizeof(Antenna) == 208);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

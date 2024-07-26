@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -88,11 +92,13 @@ namespace Balltze::HEK::TagDefinitions {
 	struct WeatherParticleSystem {
 		Memory::BigEndian<IsUnusedFlag> flags;
 		PADDING(32);
-		TagReflexive<WeatherParticleSystemParticleType> particle_types;
+		TagBlock<WeatherParticleSystemParticleType> particle_types;
 	};
 	static_assert(sizeof(WeatherParticleSystem) == 48);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__PHYSICS_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	enum PhysicsFrictionType : std::uint16_t {
@@ -94,13 +99,15 @@ namespace Balltze::Engine::TagDefinitions {
 		float xx_moment;
 		float yy_moment;
 		float zz_moment;
-		TagReflexive<PhysicsInertialMatrix> inertial_matrix_and_inverse;
-		TagReflexive<PhysicsPoweredMassPoint> powered_mass_points;
-		TagReflexive<PhysicsMassPoint> mass_points;
+		TagBlock<PhysicsInertialMatrix> inertial_matrix_and_inverse;
+		TagBlock<PhysicsPoweredMassPoint> powered_mass_points;
+		TagBlock<PhysicsMassPoint> mass_points;
 	};
 	static_assert(sizeof(Physics) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

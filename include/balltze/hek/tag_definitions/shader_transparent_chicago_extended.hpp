@@ -8,9 +8,13 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
+#include "shader.hpp"
 #include "shader_transparent_chicago.hpp"
 #include "shader_transparent_generic.hpp"
-#include "shader.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	struct ShaderTransparentChicagoExtended : public Shader {
@@ -23,15 +27,17 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(2);
 		Memory::BigEndian<float> lens_flare_spacing;
 		TagDependency lens_flare;
-		TagReflexive<ShaderTransparentExtraLayer> extra_layers;
-		TagReflexive<ShaderTransparentChicagoMap> maps_4_stage;
-		TagReflexive<ShaderTransparentChicagoMap> maps_2_stage;
+		TagBlock<ShaderTransparentExtraLayer> extra_layers;
+		TagBlock<ShaderTransparentChicagoMap> maps_4_stage;
+		TagBlock<ShaderTransparentChicagoMap> maps_2_stage;
 		Memory::BigEndian<ShaderTransparentChicagoExtraFlags> extra_flags;
 		PADDING(8);
 	};
 	static_assert(sizeof(ShaderTransparentChicagoExtended) == 120);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__STRING_LIST_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct StringListString {
@@ -16,11 +21,13 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(StringListString) == 20);
 
 	struct StringList {
-		TagReflexive<StringListString> strings;
+		TagBlock<StringListString> strings;
 	};
 	static_assert(sizeof(StringList) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

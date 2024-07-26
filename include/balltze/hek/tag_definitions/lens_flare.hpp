@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum LensFlareRadiusScaledBy : std::uint16_t {
 		LENS_FLARE_RADIUS_SCALED_BY_NONE = 0,
@@ -103,12 +107,14 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> horizontal_scale;
 		Memory::BigEndian<float> vertical_scale;
 		PADDING(28);
-		TagReflexive<LensFlareReflection> reflections;
+		TagBlock<LensFlareReflection> reflections;
 		PADDING(32);
 	};
 	static_assert(sizeof(LensFlare) == 240);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__WEATHER_PARTICLE_SYSTEM_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -88,11 +93,13 @@ namespace Balltze::Engine::TagDefinitions {
 	struct WeatherParticleSystem {
 		IsUnusedFlag flags;
 		PADDING(32);
-		TagReflexive<WeatherParticleSystemParticleType> particle_types;
+		TagBlock<WeatherParticleSystemParticleType> particle_types;
 	};
 	static_assert(sizeof(WeatherParticleSystem) == 48);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

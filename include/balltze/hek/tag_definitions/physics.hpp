@@ -9,6 +9,10 @@
 #include "enum.hpp"
 #include "bitfield.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
+
+
 namespace Balltze::HEK::TagDefinitions { 
 	enum PhysicsFrictionType : std::uint16_t {
 		PHYSICS_FRICTION_TYPE_POINT = 0,
@@ -94,13 +98,15 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> xx_moment;
 		Memory::BigEndian<float> yy_moment;
 		Memory::BigEndian<float> zz_moment;
-		TagReflexive<PhysicsInertialMatrix> inertial_matrix_and_inverse;
-		TagReflexive<PhysicsPoweredMassPoint> powered_mass_points;
-		TagReflexive<PhysicsMassPoint> mass_points;
+		TagBlock<PhysicsInertialMatrix> inertial_matrix_and_inverse;
+		TagBlock<PhysicsPoweredMassPoint> powered_mass_points;
+		TagBlock<PhysicsMassPoint> mass_points;
 	};
 	static_assert(sizeof(Physics) == 128);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

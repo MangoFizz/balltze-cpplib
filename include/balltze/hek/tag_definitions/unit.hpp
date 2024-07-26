@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "object.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -176,8 +180,8 @@ namespace Balltze::HEK::TagDefinitions {
 		TagString camera_submerged_marker_name;
 		Angle pitch_auto_level;
 		Angle pitch_range[2];
-		TagReflexive<UnitCameraTrack> camera_tracks;
-		TagReflexive<UnitUnitHudInterface> unit_hud_interface;
+		TagBlock<UnitCameraTrack> camera_tracks;
+		TagBlock<UnitUnitHudInterface> unit_hud_interface;
 		PADDING(4);
 		Index hud_text_message_index;
 		PADDING(2);
@@ -218,7 +222,7 @@ namespace Balltze::HEK::TagDefinitions {
 		TagString camera_submerged_marker_name;
 		Angle pitch_auto_level;
 		Angle pitch_range[2];
-		TagReflexive<UnitCameraTrack> camera_tracks;
+		TagBlock<UnitCameraTrack> camera_tracks;
 		Point3D seat_acceleration_scale;
 		PADDING(12);
 		Memory::BigEndian<float> soft_ping_threshold;
@@ -251,20 +255,22 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<MetagameType> metagame_type;
 		Memory::BigEndian<MetagameClass> metagame_class;
 		PADDING(8);
-		TagReflexive<UnitUnitHudInterface> new_hud_interfaces;
-		TagReflexive<UnitDialogueVariant> dialogue_variants;
+		TagBlock<UnitUnitHudInterface> new_hud_interfaces;
+		TagBlock<UnitDialogueVariant> dialogue_variants;
 		Memory::BigEndian<float> grenade_velocity;
 		Memory::BigEndian<GrenadeType> grenade_type;
 		Memory::BigEndian<std::int16_t> grenade_count;
 		Memory::BigEndian<std::int16_t> soft_ping_interrupt_ticks;
 		Memory::BigEndian<std::int16_t> hard_ping_interrupt_ticks;
-		TagReflexive<UnitPoweredSeat> powered_seats;
-		TagReflexive<UnitWeapon> weapons;
-		TagReflexive<UnitSeat> seats;
+		TagBlock<UnitPoweredSeat> powered_seats;
+		TagBlock<UnitWeapon> weapons;
+		TagBlock<UnitSeat> seats;
 	};
 	static_assert(sizeof(Unit) == 752);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

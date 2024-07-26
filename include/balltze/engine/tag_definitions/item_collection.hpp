@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__ITEM_COLLECTION_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct ItemCollectionPermutation {
@@ -19,7 +24,7 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ItemCollectionPermutation) == 84);
 
 	struct ItemCollection {
-		TagReflexive<ItemCollectionPermutation> permutations;
+		TagBlock<ItemCollectionPermutation> permutations;
 		std::int16_t default_spawn_time;
 		PADDING(2);
 		PADDING(76);
@@ -27,6 +32,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ItemCollection) == 92);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

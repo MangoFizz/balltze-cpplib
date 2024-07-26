@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__UNIT_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "object.hpp"
 
 namespace Balltze::Engine::TagDefinitions { 
@@ -176,8 +181,8 @@ namespace Balltze::Engine::TagDefinitions {
 		TagString camera_submerged_marker_name;
 		Angle pitch_auto_level;
 		Angle pitch_range[2];
-		TagReflexive<UnitCameraTrack> camera_tracks;
-		TagReflexive<UnitUnitHudInterface> unit_hud_interface;
+		TagBlock<UnitCameraTrack> camera_tracks;
+		TagBlock<UnitUnitHudInterface> unit_hud_interface;
 		PADDING(4);
 		Index hud_text_message_index;
 		PADDING(2);
@@ -218,7 +223,7 @@ namespace Balltze::Engine::TagDefinitions {
 		TagString camera_submerged_marker_name;
 		Angle pitch_auto_level;
 		Angle pitch_range[2];
-		TagReflexive<UnitCameraTrack> camera_tracks;
+		TagBlock<UnitCameraTrack> camera_tracks;
 		Point3D seat_acceleration_scale;
 		PADDING(12);
 		float soft_ping_threshold;
@@ -251,20 +256,22 @@ namespace Balltze::Engine::TagDefinitions {
 		MetagameType metagame_type;
 		MetagameClass metagame_class;
 		PADDING(8);
-		TagReflexive<UnitUnitHudInterface> new_hud_interfaces;
-		TagReflexive<UnitDialogueVariant> dialogue_variants;
+		TagBlock<UnitUnitHudInterface> new_hud_interfaces;
+		TagBlock<UnitDialogueVariant> dialogue_variants;
 		float grenade_velocity;
 		GrenadeType grenade_type;
 		std::int16_t grenade_count;
 		std::int16_t soft_ping_interrupt_ticks;
 		std::int16_t hard_ping_interrupt_ticks;
-		TagReflexive<UnitPoweredSeat> powered_seats;
-		TagReflexive<UnitWeapon> weapons;
-		TagReflexive<UnitSeat> seats;
+		TagBlock<UnitPoweredSeat> powered_seats;
+		TagBlock<UnitWeapon> weapons;
+		TagBlock<UnitSeat> seats;
 	};
 	static_assert(sizeof(Unit) == 752);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

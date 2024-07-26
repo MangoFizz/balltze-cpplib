@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SOUND_LOOPING_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct SoundLoopingTrackFlags {
@@ -68,12 +73,14 @@ namespace Balltze::Engine::TagDefinitions {
 		float maximum_distance;
 		PADDING(8);
 		TagDependency continuous_damage_effect;
-		TagReflexive<SoundLoopingTrack> tracks;
-		TagReflexive<SoundLoopingDetail> detail_sounds;
+		TagBlock<SoundLoopingTrack> tracks;
+		TagBlock<SoundLoopingDetail> detail_sounds;
 	};
 	static_assert(sizeof(SoundLooping) == 84);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

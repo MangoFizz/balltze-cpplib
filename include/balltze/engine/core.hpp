@@ -49,7 +49,7 @@ namespace Balltze::Engine {
 
     /**
      * Get the Halo profile path
-     * @return Halo profile path
+     * @return ABSOLUTE path to the Halo profile folder
      */
     BALLTZE_API std::filesystem::path get_path();
 
@@ -57,6 +57,11 @@ namespace Balltze::Engine {
      * Returns the number of ticks since the engine started.
      */
     BALLTZE_API std::size_t get_tick_count() noexcept;
+
+    /**
+     * Returns the tick rate of the engine.
+     */
+    BALLTZE_API float get_tick_rate() noexcept;
 
     /**
      * Get the game engine used

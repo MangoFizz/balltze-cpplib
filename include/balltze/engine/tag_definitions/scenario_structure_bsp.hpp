@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__SCENARIO_STRUCTURE_BSP_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct ScenarioStructureBSPMaterialFlags {
@@ -128,7 +133,7 @@ namespace Balltze::Engine::TagDefinitions {
 		Index bitmap;
 		PADDING(2);
 		PADDING(16);
-		TagReflexive<ScenarioStructureBSPMaterial> materials;
+		TagBlock<ScenarioStructureBSPMaterial> materials;
 	};
 	static_assert(sizeof(ScenarioStructureBSPLightmap) == 32);
 
@@ -155,7 +160,7 @@ namespace Balltze::Engine::TagDefinitions {
 		float world_bounds_x[2];
 		float world_bounds_y[2];
 		float world_bounds_z[2];
-		TagReflexive<ScenarioStructureBSPSubclusterSurfaceIndex> surface_indices;
+		TagBlock<ScenarioStructureBSPSubclusterSurfaceIndex> surface_indices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPSubcluster) == 36);
 
@@ -173,7 +178,7 @@ namespace Balltze::Engine::TagDefinitions {
 		Plane3D plane;
 		PADDING(20);
 		TagDependency shader;
-		TagReflexive<ScenarioStructureBSPMirrorVertex> vertices;
+		TagBlock<ScenarioStructureBSPMirrorVertex> vertices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPMirror) == 64);
 
@@ -192,13 +197,13 @@ namespace Balltze::Engine::TagDefinitions {
 		Index first_decal_index;
 		std::uint16_t decal_count;
 		PADDING(24);
-		TagReflexive<PredictedResource> predicted_resources;
-		TagReflexive<ScenarioStructureBSPSubcluster> subclusters;
+		TagBlock<PredictedResource> predicted_resources;
+		TagBlock<ScenarioStructureBSPSubcluster> subclusters;
 		Index first_lens_flare_marker_index;
 		std::int16_t lens_flare_marker_count;
-		TagReflexive<ScenarioStructureBSPClusterSurfaceIndex> surface_indices;
-		TagReflexive<ScenarioStructureBSPMirror> mirrors;
-		TagReflexive<ScenarioStructureBSPClusterPortalIndex> portals;
+		TagBlock<ScenarioStructureBSPClusterSurfaceIndex> surface_indices;
+		TagBlock<ScenarioStructureBSPMirror> mirrors;
+		TagBlock<ScenarioStructureBSPClusterPortalIndex> portals;
 	};
 	static_assert(sizeof(ScenarioStructureBSPCluster) == 104);
 
@@ -215,7 +220,7 @@ namespace Balltze::Engine::TagDefinitions {
 		float bounding_radius;
 		ScenarioStructureBSPClusterPortalFlags flags;
 		PADDING(24);
-		TagReflexive<ScenarioStructureBSPClusterPortalVertex> vertices;
+		TagBlock<ScenarioStructureBSPClusterPortalVertex> vertices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPClusterPortal) == 64);
 
@@ -236,7 +241,7 @@ namespace Balltze::Engine::TagDefinitions {
 		Index front_region;
 		MaterialType material_type;
 		Plane3D plane;
-		TagReflexive<ScenarioStructureBSPFogPlaneVertex> vertices;
+		TagBlock<ScenarioStructureBSPFogPlaneVertex> vertices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPFogPlane) == 32);
 
@@ -280,7 +285,7 @@ namespace Balltze::Engine::TagDefinitions {
 		Point3D bounding_sphere_center;
 		float bounding_sphere_radius;
 		PADDING(4);
-		TagReflexive<ScenarioStructureBSPWeatherPolyhedronPlane> planes;
+		TagBlock<ScenarioStructureBSPWeatherPolyhedronPlane> planes;
 	};
 	static_assert(sizeof(ScenarioStructureBSPWeatherPolyhedron) == 32);
 
@@ -352,10 +357,10 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ScenarioStructureBSPGlobalZReferenceVector) == 16);
 
 	struct ScenarioStructureBSPDetailObjectData {
-		TagReflexive<ScenarioStructureBSPGlobalDetailObjectCell> cells;
-		TagReflexive<ScenarioStructureBSPGlobalDetailObject> instances;
-		TagReflexive<ScenarioStructureBSPGlobalDetailObjectCount> counts;
-		TagReflexive<ScenarioStructureBSPGlobalZReferenceVector> z_reference_vectors;
+		TagBlock<ScenarioStructureBSPGlobalDetailObjectCell> cells;
+		TagBlock<ScenarioStructureBSPGlobalDetailObject> instances;
+		TagBlock<ScenarioStructureBSPGlobalDetailObjectCount> counts;
+		TagBlock<ScenarioStructureBSPGlobalZReferenceVector> z_reference_vectors;
 		std::uint8_t bullshit;
 		PADDING(3);
 		PADDING(12);
@@ -377,7 +382,7 @@ namespace Balltze::Engine::TagDefinitions {
 
 	struct ScenarioStructureBSPMapLeafFace {
 		std::int32_t node_index;
-		TagReflexive<ScenarioStructureBSPMapLeafFaceVertex> vertices;
+		TagBlock<ScenarioStructureBSPMapLeafFaceVertex> vertices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPMapLeafFace) == 16);
 
@@ -387,8 +392,8 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(ScenarioStructureBSPMapLeafPortalIndex) == 4);
 
 	struct ScenarioStructureBSPGlobalMapLeaf {
-		TagReflexive<ScenarioStructureBSPMapLeafFace> faces;
-		TagReflexive<ScenarioStructureBSPMapLeafPortalIndex> portal_indices;
+		TagBlock<ScenarioStructureBSPMapLeafFace> faces;
+		TagBlock<ScenarioStructureBSPMapLeafPortalIndex> portal_indices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPGlobalMapLeaf) == 24);
 
@@ -401,7 +406,7 @@ namespace Balltze::Engine::TagDefinitions {
 		std::int32_t plane_index;
 		std::int32_t back_leaf_index;
 		std::int32_t front_leaf_index;
-		TagReflexive<ScenarioStructureBSPLeafPortalVertex> vertices;
+		TagBlock<ScenarioStructureBSPLeafPortalVertex> vertices;
 	};
 	static_assert(sizeof(ScenarioStructureBSPGlobalLeafPortal) == 24);
 
@@ -421,44 +426,44 @@ namespace Balltze::Engine::TagDefinitions {
 		Vector3D default_shadow_vector;
 		ColorRGB default_shadow_color;
 		PADDING(4);
-		TagReflexive<ScenarioStructureBSPCollisionMaterial> collision_materials;
-		TagReflexive<ModelCollisionGeometryBSP> collision_bsp;
-		TagReflexive<ScenarioStructureBSPNode> nodes;
+		TagBlock<ScenarioStructureBSPCollisionMaterial> collision_materials;
+		TagBlock<ModelCollisionGeometryBSP> collision_bsp;
+		TagBlock<ScenarioStructureBSPNode> nodes;
 		float world_bounds_x[2];
 		float world_bounds_y[2];
 		float world_bounds_z[2];
-		TagReflexive<ScenarioStructureBSPLeaf> leaves;
-		TagReflexive<ScenarioStructureBSPSurfaceReference> leaf_surfaces;
-		TagReflexive<ScenarioStructureBSPSurface> surfaces;
-		TagReflexive<ScenarioStructureBSPLightmap> lightmaps;
+		TagBlock<ScenarioStructureBSPLeaf> leaves;
+		TagBlock<ScenarioStructureBSPSurfaceReference> leaf_surfaces;
+		TagBlock<ScenarioStructureBSPSurface> surfaces;
+		TagBlock<ScenarioStructureBSPLightmap> lightmaps;
 		PADDING(12);
-		TagReflexive<ScenarioStructureBSPLensFlare> lens_flares;
-		TagReflexive<ScenarioStructureBSPLensFlareMarker> lens_flare_markers;
-		TagReflexive<ScenarioStructureBSPCluster> clusters;
+		TagBlock<ScenarioStructureBSPLensFlare> lens_flares;
+		TagBlock<ScenarioStructureBSPLensFlareMarker> lens_flare_markers;
+		TagBlock<ScenarioStructureBSPCluster> clusters;
 		TagDataOffset cluster_data;
-		TagReflexive<ScenarioStructureBSPClusterPortal> cluster_portals;
+		TagBlock<ScenarioStructureBSPClusterPortal> cluster_portals;
 		PADDING(12);
-		TagReflexive<ScenarioStructureBSPBreakableSurface> breakable_surfaces;
-		TagReflexive<ScenarioStructureBSPFogPlane> fog_planes;
-		TagReflexive<ScenarioStructureBSPFogRegion> fog_regions;
-		TagReflexive<ScenarioStructureBSPFogPalette> fog_palette;
+		TagBlock<ScenarioStructureBSPBreakableSurface> breakable_surfaces;
+		TagBlock<ScenarioStructureBSPFogPlane> fog_planes;
+		TagBlock<ScenarioStructureBSPFogRegion> fog_regions;
+		TagBlock<ScenarioStructureBSPFogPalette> fog_palette;
 		PADDING(24);
-		TagReflexive<ScenarioStructureBSPWeatherPalette> weather_palette;
-		TagReflexive<ScenarioStructureBSPWeatherPolyhedron> weather_polyhedra;
+		TagBlock<ScenarioStructureBSPWeatherPalette> weather_palette;
+		TagBlock<ScenarioStructureBSPWeatherPolyhedron> weather_polyhedra;
 		PADDING(24);
-		TagReflexive<ScenarioStructureBSPPathfindingSurface> pathfinding_surfaces;
-		TagReflexive<ScenarioStructureBSPPathfindingEdge> pathfinding_edges;
-		TagReflexive<ScenarioStructureBSPBackgroundSoundPalette> background_sound_palette;
-		TagReflexive<ScenarioStructureBSPSoundEnvironmentPalette> sound_environment_palette;
+		TagBlock<ScenarioStructureBSPPathfindingSurface> pathfinding_surfaces;
+		TagBlock<ScenarioStructureBSPPathfindingEdge> pathfinding_edges;
+		TagBlock<ScenarioStructureBSPBackgroundSoundPalette> background_sound_palette;
+		TagBlock<ScenarioStructureBSPSoundEnvironmentPalette> sound_environment_palette;
 		TagDataOffset sound_pas_data;
 		PADDING(24);
-		TagReflexive<ScenarioStructureBSPMarker> markers;
-		TagReflexive<ScenarioStructureBSPDetailObjectData> detail_objects;
-		TagReflexive<ScenarioStructureBSPRuntimeDecal> runtime_decals;
+		TagBlock<ScenarioStructureBSPMarker> markers;
+		TagBlock<ScenarioStructureBSPDetailObjectData> detail_objects;
+		TagBlock<ScenarioStructureBSPRuntimeDecal> runtime_decals;
 		PADDING(8);
 		PADDING(4);
-		TagReflexive<ScenarioStructureBSPGlobalMapLeaf> leaf_map_leaves;
-		TagReflexive<ScenarioStructureBSPGlobalLeafPortal> leaf_map_portals;
+		TagBlock<ScenarioStructureBSPGlobalMapLeaf> leaf_map_leaves;
+		TagBlock<ScenarioStructureBSPGlobalLeafPortal> leaf_map_portals;
 	};
 	static_assert(sizeof(ScenarioStructureBsp) == 648);
 
@@ -468,7 +473,7 @@ namespace Balltze::Engine::TagDefinitions {
 		std::byte *rendered_vertices;
 		std::uint32_t lightmap_material_count_again;
 		std::byte *lightmap_vertices;
-		TagFourCC signature;
+		TagClassInt signature;
 	};
 	static_assert(sizeof(ScenarioStructureBSPCompiledHeader) == 24);
 
@@ -477,11 +482,13 @@ namespace Balltze::Engine::TagDefinitions {
 		std::uint32_t lightmap_vertex_size;
 		std::uint32_t lightmap_vertices;
 		PADDING(8);
-		TagFourCC signature;
+		TagClassInt signature;
 	};
 	static_assert(sizeof(ScenarioStructureBSPCompiledHeaderCEA) == 24);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

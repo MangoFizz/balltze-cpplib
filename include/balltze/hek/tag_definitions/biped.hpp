@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "unit.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -99,11 +103,13 @@ namespace Balltze::HEK::TagDefinitions {
 		Memory::BigEndian<float> sine_uphill_cutoff_angle;
 		Index pelvis_model_node_index;
 		Index head_model_node_index;
-		TagReflexive<BipedContactPoint> contact_point;
+		TagBlock<BipedContactPoint> contact_point;
 	};
 	static_assert(sizeof(Biped) == 1268);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

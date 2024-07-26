@@ -5,9 +5,14 @@
 #define BALLTZE_API__ENGINE__TAG_DEFINITION__MULTIPLAYER_SCENARIO_DESCRIPTION_HPP
 
 #include "../../memory.hpp"
-#include "../data_types.hpp"
+#include "../tag.hpp"
+#include "../script.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 
 namespace Balltze::Engine::TagDefinitions { 
 	struct MultiplayerScenarioDescriptionScenarioDescription {
@@ -19,11 +24,13 @@ namespace Balltze::Engine::TagDefinitions {
 	static_assert(sizeof(MultiplayerScenarioDescriptionScenarioDescription) == 68);
 
 	struct MultiplayerScenarioDescription {
-		TagReflexive<MultiplayerScenarioDescriptionScenarioDescription> multiplayer_scenarios;
+		TagBlock<MultiplayerScenarioDescriptionScenarioDescription> multiplayer_scenarios;
 	};
 	static_assert(sizeof(MultiplayerScenarioDescription) == 12);
 
 }
+
+#pragma pack(pop)
 
 #endif
 

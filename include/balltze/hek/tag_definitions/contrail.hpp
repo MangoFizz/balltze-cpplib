@@ -8,6 +8,10 @@
 #include "../tag_file.hpp"
 #include "enum.hpp"
 #include "bitfield.hpp"
+
+#pragma pack(push)
+#pragma pack(1)
+
 #include "particle.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
@@ -115,11 +119,13 @@ namespace Balltze::HEK::TagDefinitions {
 		PADDING(4);
 		Memory::BigEndian<float> zsprite_radius_scale;
 		PADDING(20);
-		TagReflexive<ContrailPointState> point_states;
+		TagBlock<ContrailPointState> point_states;
 	};
 	static_assert(sizeof(Contrail) == 324);
 
 }
+
+#pragma pack(pop)
 
 #endif
 
