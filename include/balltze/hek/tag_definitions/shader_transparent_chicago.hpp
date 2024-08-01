@@ -12,8 +12,8 @@
 #pragma pack(push)
 #pragma pack(1)
 
-#include "shader_transparent_generic.hpp"
 #include "shader.hpp"
+#include "shader_transparent_generic.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	struct ShaderTransparentChicagoMapFlags {
