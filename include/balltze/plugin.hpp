@@ -8,6 +8,7 @@
 #include <string>
 #include <filesystem>
 #include <semver.hpp>
+#include "api.hpp"
 #include "utils.hpp"
 
 using PluginHandle = void *;
@@ -26,7 +27,7 @@ namespace Balltze {
     using plugin_load_proc_t = void (*)();
     using plugin_unload_proc_t = void (*)();
 
-    std::filesystem::path get_plugin_path(PluginHandle);
+    BALLTZE_API std::filesystem::path get_plugin_path(PluginHandle);
 
     inline std::filesystem::path get_plugin_path() {
         return get_plugin_path(get_current_module());
