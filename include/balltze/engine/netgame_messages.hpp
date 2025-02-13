@@ -118,7 +118,7 @@ namespace Balltze::Engine {
             Vector3D translational_velocity;
             std::int16_t magazine_0_rounds_total;
             std::int16_t magazine_1_rounds_total;
-            float age; // Check if actually a float.
+            float age; 
         };
 
         struct PACKED_ATTR BipedUpdateHeader {

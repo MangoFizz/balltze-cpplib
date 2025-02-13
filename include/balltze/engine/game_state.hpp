@@ -1493,7 +1493,7 @@ namespace Balltze::Engine {
     static_assert(sizeof(AntennaVertex) == 0x20);
 
     enum NetworkPlayerColor : std::uint16_t {
-        NETWORK_COLOR_WHITE   = 0,
+        NETWORK_COLOR_WHITE = 0,
         NETWORK_COLOR_BLACK,
         NETWORK_COLOR_RED,
         NETWORK_COLOR_BLUE,
@@ -2011,6 +2011,31 @@ namespace Balltze::Engine {
      * @return Return a reference to the camera data.
      */
     BALLTZE_API CameraData &get_camera_data() noexcept;
+
+    /**
+     * Delete all weapons from a unit.
+     * @param unit The handle of the unit to delete all weapons from.
+     * @throws std::runtime_error if the object does not exist, or if the object is not a biped or vehicle.
+     */
+    BALLTZE_API void unit_delete_all_weapons(ObjectHandle unit);
+
+    /**
+     * Add a weapon to a unit.
+     * @param unit The handle of the unit to add the weapon to.
+     * @param weapon The handle of the weapon to add.
+     * @throws std::runtime_error if the object does not exist, or if the object is not a biped or vehicle.
+     */
+    BALLTZE_API void unit_add_weapon_to_inventory(ObjectHandle unit, ObjectHandle weapon, uint16_t param_3);
+
+    /**
+     * Attach an object to another object by its markers.
+     * @param object The object to attach.
+     * @param object_marker The marker on the object to attach.
+     * @param attachment The object to attach to.
+     * @param attachment_marker The marker on the attachment to attach to.
+     * @throws std::runtime_error if any of the objects do not exist.
+     */
+    BALLTZE_API void object_attach_to_marker(ObjectHandle object, std::optional<std::string> object_marker, ObjectHandle attachment, std::optional<std::string> attachment_marker);
 }
 
 #endif

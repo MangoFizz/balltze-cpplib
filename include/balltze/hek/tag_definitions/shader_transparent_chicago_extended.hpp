@@ -12,9 +12,9 @@
 #pragma pack(push)
 #pragma pack(1)
 
+#include "shader.hpp"
 #include "shader_transparent_generic.hpp"
 #include "shader_transparent_chicago.hpp"
-#include "shader.hpp"
 
 namespace Balltze::HEK::TagDefinitions { 
 	struct ShaderTransparentChicagoExtended : public Shader {
