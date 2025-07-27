@@ -3,17 +3,20 @@
 #ifndef BALLTZE_API__EVENTS__FRAME_HPP
 #define BALLTZE_API__EVENTS__FRAME_HPP
 
-#include "../event.hpp"
+#include "../events.hpp"
 
-namespace Balltze::Event {
-    class FrameEvent : public EventData<FrameEvent> {
+namespace Balltze::Events {
+    class FrameBeginEvent : public EventData<FrameBeginEvent> {
     public:
-        bool cancellable() const {
-            return false;
-        }
-
-        FrameEvent(EventTime time) : EventData(time) {}
+        FrameBeginEvent() : EventData(false) {}
     };
+
+    class FrameEndEvent : public EventData<FrameEndEvent> {
+    public:
+        FrameEndEvent() : EventData(false) {}
+    };
+
+    using FrameEvent = FrameEndEvent;
 }
 
 #endif
