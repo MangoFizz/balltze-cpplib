@@ -13,8 +13,8 @@
 #pragma pack(push)
 #pragma pack(1)
 
-#include "shader_transparent_generic.hpp"
 #include "shader_transparent_chicago.hpp"
+#include "shader_transparent_generic.hpp"
 #include "shader.hpp"
 
 namespace Balltze::LegacyApi::Engine::TagDefinitions { 
