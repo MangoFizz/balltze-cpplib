@@ -14,8 +14,8 @@
 #pragma pack(1)
 
 #include "shader.hpp"
-#include "shader_transparent_generic.hpp"
 #include "shader_transparent_chicago.hpp"
+#include "shader_transparent_generic.hpp"
 
 namespace Balltze::LegacyApi::Engine::TagDefinitions { 
 	struct ShaderTransparentChicagoExtended : public Shader {
