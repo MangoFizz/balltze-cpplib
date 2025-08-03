@@ -13,8 +13,8 @@
 #pragma pack(push)
 #pragma pack(1)
 
-#include "actor.hpp"
 #include "object.hpp"
+#include "actor.hpp"
 
 namespace Balltze::LegacyApi::Engine::TagDefinitions { 
 	enum ScenarioType : std::uint16_t {
