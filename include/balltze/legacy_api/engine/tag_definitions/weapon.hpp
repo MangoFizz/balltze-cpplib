@@ -13,8 +13,8 @@
 #pragma pack(push)
 #pragma pack(1)
 
-#include "object.hpp"
 #include "item.hpp"
+#include "object.hpp"
 
 namespace Balltze::LegacyApi::Engine::TagDefinitions { 
 	enum WeaponSecondaryTriggerMode : std::uint16_t {
